@@ -7,7 +7,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content" >
 
         <EditText
             android:id="@+id/title_add"
@@ -30,7 +30,7 @@
             android:id="@+id/notification_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Powiadomienia"
+            android:text="@string/powiadomienia"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.94"
@@ -57,7 +57,7 @@
             android:ems="10"
             android:gravity="left"
             android:inputType="textMultiLine"
-            android:text="Opis"
+            android:text="@string/opis"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
@@ -73,8 +73,7 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/desc_add"
-            tools:ignore="MissingConstraints">
+            app:layout_constraintTop_toBottomOf="@id/desc_add">
 
             <RadioButton
                 android:id="@+id/radio_add1"
@@ -86,7 +85,7 @@
                 android:drawableTop="@drawable/rd_button"
                 android:drawablePadding="-20dp"
                 android:gravity="center"
-                android:text="Najniższy" />
+                android:text="@string/najnizszy" />
 
             <RadioButton
                 android:id="@+id/radio_add2"
@@ -97,7 +96,7 @@
                 android:drawableTop="@drawable/rd_button"
                 android:drawablePadding="-20dp"
                 android:gravity="center"
-                android:text="Niski" />
+                android:text="@string/niski" />
 
             <RadioButton
                 android:id="@+id/radio_add3"
@@ -108,7 +107,7 @@
                 android:drawableTop="@drawable/rd_button"
                 android:drawablePadding="-20dp"
                 android:gravity="center"
-                android:text="Średni" />
+                android:text="@string/sredni" />
 
             <RadioButton
                 android:id="@+id/radio_add4"
@@ -119,7 +118,7 @@
                 android:drawableTop="@drawable/rd_button"
                 android:drawablePadding="-20dp"
                 android:gravity="center"
-                android:text="Wysoki" />
+                android:text="@string/wysoki" />
 
             <RadioButton
                 android:id="@+id/radio_add5"
@@ -130,7 +129,7 @@
                 android:drawableTop="@drawable/rd_button"
                 android:drawablePadding="-20dp"
                 android:gravity="center"
-                android:text="Najwyższy" />
+                android:text="@string/najwyzszy" />
         </RadioGroup>
 
         <ImageButton

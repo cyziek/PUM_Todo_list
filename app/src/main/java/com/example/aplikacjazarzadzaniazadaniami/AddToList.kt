@@ -1,33 +1,13 @@
 package com.example.aplikacjazarzadzaniazadaniami
 
-import android.content.Context
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.navigation.fragment.findNavController
 import com.example.aplikacjazarzadzaniazadaniami.databinding.ListAddBinding
-import com.google.android.material.snackbar.Snackbar
-import androidx.core.content.ContextCompat.getSystemService
-import android.app.Activity
-import android.util.Log
-import android.view.View.OnFocusChangeListener
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
-
-
-
-
-
-
-
-
-
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
