@@ -10,20 +10,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.aplikacjazarzadzaniazadaniami.databinding.ListAddBinding
 import android.widget.Toast
 import android.view.MotionEvent
-
 import android.view.View.OnTouchListener
 import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import android.app.Activity
-
-
-
-
-
-
-
-
 
 
 /**
@@ -50,12 +39,14 @@ class AddToList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.descAdd.movementMethod
-
         binding.add.setOnClickListener{
-            Toast.makeText(context, "Dodano zadanie!", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
-//            Log.d("Beniz", "hehe");
+            if(binding.descAdd.text.toString().trim().equals("") || binding.titleAdd.text.toString().trim().equals("")){
+                Toast.makeText(context, "Brak danych!", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(context, "Dodano zadanie!", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+                //Log.d("Beniz", "hehe");
+            }
         }
 
         binding.descAdd.setOnTouchListener(OnTouchListener { v, event ->
