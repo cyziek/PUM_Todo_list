@@ -15,7 +15,9 @@ import com.example.aplikacjazarzadzaniazadaniami.databinding.ListAddBinding
 import com.google.android.material.snackbar.Snackbar
 import androidx.core.content.ContextCompat.getSystemService
 import android.app.Activity
+import android.util.Log
 import android.view.View.OnFocusChangeListener
+import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
 
 
@@ -45,21 +47,16 @@ class AddToList : Fragment() {
 
         _binding = ListAddBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.add.setOnClickListener{ view ->
-            Snackbar.make(view, "Hehe GUZIG :-DDD", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
-
-        binding.add.setOnClickListener {
+        binding.add.setOnClickListener{
+            Toast.makeText(context, "Dodano zadanie!", Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+//            Log.d("Beniz", "hehe");
         }
-
     }
 
     override fun onDestroyView() {

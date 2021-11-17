@@ -1,83 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
+    android:layout_height="match_parent" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     tools:context=".AddToList">
 
-    <ImageButton
-        android:id="@+id/add"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="185dp"
-        android:layout_marginTop="728dp"
-        android:layout_marginEnd="186dp"
-        android:layout_marginBottom="78dp"
-        android:background="@null"
-        android:src="@drawable/ic_baseline_add_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.643" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
-    <EditText
-        android:id="@+id/title_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="start"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Tytuł"
-        android:gravity="center_horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/date_add"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.737" />
+        <EditText
+            android:id="@+id/title_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_style"
+            android:ellipsize="start"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:inputType="text"
+            android:text="Tytuł"
+            app:layout_constraintBottom_toTopOf="@+id/date_add"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.737" />
 
-    <Switch
-        android:id="@+id/notification_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Powiadomienia"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.94"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022" />
+        <Switch
+            android:id="@+id/notification_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Powiadomienia"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.94"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.022" />
 
-    <CalendarView
-        android:id="@+id/date_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="125dp"
-        android:layout_marginEnd="31dp"
-        android:layout_marginBottom="268dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <CalendarView
+            android:id="@+id/date_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="125dp"
+            android:layout_marginEnd="31dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/desc_add"
-        android:layout_width="350dp"
-        android:layout_height="164dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
-        android:gravity="left"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.814" />
+        <EditText
+            android:id="@+id/desc_add"
+            android:layout_width="350dp"
+            android:layout_height="150dp"
+            android:background="@drawable/edit_text_style"
+            android:ems="10"
+            android:gravity="left"
+            android:inputType="textMultiLine"
+            android:text="Opis"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.492"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/date_add" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <RadioGroup
+            android:id="@+id/radiogroup_add1"
+            android:layout_width="350dp"
+            android:layout_height="58dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/desc_add"
+            tools:ignore="MissingConstraints">
+
+            <RadioButton
+                android:id="@+id/radio_add1"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:checked="true"
+                android:drawableTop="@drawable/rd_button"
+                android:drawablePadding="-20dp"
+                android:gravity="center"
+                android:text="Najniższy" />
+
+            <RadioButton
+                android:id="@+id/radio_add2"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:drawableTop="@drawable/rd_button"
+                android:drawablePadding="-20dp"
+                android:gravity="center"
+                android:text="Niski" />
+
+            <RadioButton
+                android:id="@+id/radio_add3"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:drawableTop="@drawable/rd_button"
+                android:drawablePadding="-20dp"
+                android:gravity="center"
+                android:text="Średni" />
+
+            <RadioButton
+                android:id="@+id/radio_add4"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:drawableTop="@drawable/rd_button"
+                android:drawablePadding="-20dp"
+                android:gravity="center"
+                android:text="Wysoki" />
+
+            <RadioButton
+                android:id="@+id/radio_add5"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:drawableTop="@drawable/rd_button"
+                android:drawablePadding="-20dp"
+                android:gravity="center"
+                android:text="Najwyższy" />
+        </RadioGroup>
+
+        <ImageButton
+            android:id="@+id/add"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="177dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="186dp"
+            android:layout_marginBottom="16dp"
+            android:background="@null"
+            android:src="@drawable/ic_baseline_add_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radiogroup_add1"
+            app:layout_constraintVertical_bias="1.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
