@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.aplikacjazarzadzaniazadaniami.databinding.ListTodoBinding
 import com.google.android.material.snackbar.Snackbar
 
@@ -30,8 +32,14 @@ class TodoList : Fragment() {
 
     }
 
+//    val args: AddToList(title_add) by navArgs()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+//        val tv: TextView = view.findViewById(R.id.title_add)
+//        val amount = .amount
+//        tv.text = amount.toString()
 
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
