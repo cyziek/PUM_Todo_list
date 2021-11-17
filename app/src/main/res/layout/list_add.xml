@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll_add"
     android:layout_height="match_parent" android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     tools:context=".AddToList">
@@ -11,13 +12,14 @@
 
         <EditText
             android:id="@+id/title_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="350dp"
+            android:layout_height="49dp"
             android:background="@drawable/edit_text_style"
             android:ellipsize="start"
             android:ems="10"
             android:gravity="center_horizontal"
             android:inputType="text"
+            android:maxLength="35"
             android:text="Tytuł"
             app:layout_constraintBottom_toTopOf="@+id/date_add"
             app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +59,11 @@
             android:ems="10"
             android:gravity="left"
             android:inputType="textMultiLine"
+            android:scrollbars="vertical"
+            android:overScrollMode="always"
+            android:scrollbarStyle="insideInset"
             android:text="@string/opis"
+            android:maxLength="400"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
