@@ -100,16 +100,12 @@ class TodoList : Fragment() {
         val letDirectory = File(path, "LET")
         val inputStream: InputStream = File(letDirectory, "Records.txt").inputStream()
         val lineList = mutableListOf<String>()
-        var count = 0;
-
         inputStream.bufferedReader().useLines { lines -> lines.forEach { lineList.add(it)} }
         lineList.forEach {
+            var lines = it.split(";")
 
-        }
-
-        for(i in 0 until size){
             val drawable = R.drawable.ic_baseline_delete_24
-            val item = CardView("Item $i", "Line2", drawable)
+            val item = CardView(lines[1], lines[3], drawable, "Termin: "+lines[2], "Priorytet: "+lines[4])
             list += item
         }
         return list

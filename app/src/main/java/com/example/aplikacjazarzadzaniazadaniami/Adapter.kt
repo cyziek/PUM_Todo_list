@@ -18,17 +18,21 @@ class Adapter(private val List: List<CardView>) : RecyclerView.Adapter<Adapter.V
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = List[position]
-        holder.texview1.text = currentItem.text1
-        holder.texview2.text = currentItem.text2
+        holder.textview1.text = currentItem.text1
+        holder.textview2.text = currentItem.text2
         holder.del.setImageResource(currentItem.imageResources)
+        holder.textview3.text = currentItem.text3
+        holder.textview4.text = currentItem.text4
 
     }
 
     override fun getItemCount() = List.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val texview1: TextView = itemView.findViewById(R.id.textview1)
-        val texview2: TextView = itemView.findViewById(R.id.textview2)
+        val textview1: TextView = itemView.findViewById(R.id.textview1)
+        val textview2: TextView = itemView.findViewById(R.id.textview2)
         val del: ImageView = itemView.findViewById(R.id.del)
+        val textview3: TextView = itemView.findViewById(R.id.textview3)
+        val textview4: TextView = itemView.findViewById(R.id.textview4)
     }
 }
