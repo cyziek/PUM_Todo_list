@@ -47,19 +47,22 @@ class TodoList : Fragment() {
 
         val path = context?.getExternalFilesDir(null)
         val letDirectory = File(path, "LET")
-        val inputStream: InputStream = File(letDirectory, "Records.txt").inputStream()
-        val lineList = mutableListOf<String>()
-        var count = 0;
+        if(File(letDirectory,"Records.txt").exists()) {
+            val inputStream: InputStream = File(letDirectory, "Records.txt").inputStream()
 
-        inputStream.bufferedReader().useLines { lines -> lines.forEach { lineList.add(it)} }
-        lineList.forEach {
-            count++
+            val lineList = mutableListOf<String>()
+            var count = 0;
+
+            inputStream.bufferedReader().useLines { lines -> lines.forEach { lineList.add(it) } }
+            lineList.forEach {
+                count++
+            }
+
+            val List = generateDummyList(count)
+            binding.rec.adapter = Adapter(List)
+            binding.rec.layoutManager = LinearLayoutManager(this.context)
+            binding.rec.setHasFixedSize(true)
         }
-
-        val List = generateDummyList(count)
-        binding.rec.adapter = Adapter(List)
-        binding.rec.layoutManager = LinearLayoutManager(this.context)
-        binding.rec.setHasFixedSize(true)
 
 //        val path = context?.getExternalFilesDir(null)
 //        val letDirectory = File(path, "LET")
@@ -98,15 +101,23 @@ class TodoList : Fragment() {
 
         val path = context?.getExternalFilesDir(null)
         val letDirectory = File(path, "LET")
-        val inputStream: InputStream = File(letDirectory, "Records.txt").inputStream()
-        val lineList = mutableListOf<String>()
-        inputStream.bufferedReader().useLines { lines -> lines.forEach { lineList.add(it)} }
-        lineList.forEach {
-            var lines = it.split(";")
+        if(File(letDirectory,"Records.txt").exists()) {
+            val inputStream: InputStream = File(letDirectory, "Records.txt").inputStream()
+            val lineList = mutableListOf<String>()
+            inputStream.bufferedReader().useLines { lines -> lines.forEach { lineList.add(it) } }
+            lineList.forEach {
+                var lines = it.split(";")
 
-            val drawable = R.drawable.ic_baseline_delete_24
-            val item = CardView(lines[1], lines[3], drawable, "Termin: "+lines[2], "Priorytet: "+lines[4])
-            list += item
+                val drawable = R.drawable.ic_baseline_delete_24
+                val item = CardView(
+                    lines[1],
+                    lines[3],
+                    drawable,
+                    "Termin: " + lines[2],
+                    "Priorytet: " + lines[4]
+                )
+                list += item
+            }
         }
         return list
     }
