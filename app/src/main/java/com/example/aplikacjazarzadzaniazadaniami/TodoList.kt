@@ -96,6 +96,17 @@ class TodoList : Fragment() {
     private fun generateDummyList(size: Int): List<CardView>{
         val list = ArrayList<CardView>()
 
+        val path = context?.getExternalFilesDir(null)
+        val letDirectory = File(path, "LET")
+        val inputStream: InputStream = File(letDirectory, "Records.txt").inputStream()
+        val lineList = mutableListOf<String>()
+        var count = 0;
+
+        inputStream.bufferedReader().useLines { lines -> lines.forEach { lineList.add(it)} }
+        lineList.forEach {
+
+        }
+
         for(i in 0 until size){
             val drawable = R.drawable.ic_baseline_delete_24
             val item = CardView("Item $i", "Line2", drawable)
