@@ -1,5 +1,7 @@
 package com.example.aplikacjazarzadzaniazadaniami
 
+import android.icu.text.DateFormat
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,15 +14,16 @@ import com.example.aplikacjazarzadzaniazadaniami.databinding.ListTodoBinding
 import android.view.Gravity
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
+import androidx.annotation.RequiresApi
 import java.io.File
-import java.io.FileInputStream
-import java.io.InputStream
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.FileReader
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -43,7 +46,6 @@ class TodoList : Fragment() {
         return binding.root
 
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
