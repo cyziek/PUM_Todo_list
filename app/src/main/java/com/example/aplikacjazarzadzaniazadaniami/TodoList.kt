@@ -18,6 +18,9 @@ import java.io.InputStream
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.io.FileReader
 
 
 /**
@@ -47,19 +50,13 @@ class TodoList : Fragment() {
 
         val path = context?.getExternalFilesDir(null)
         val letDirectory = File(path, "LET")
-        if(File(letDirectory,"Records.txt").exists()) {
-            val inputStream: InputStream = File(letDirectory, "Records.txt").inputStream()
+        if(File(letDirectory,"Records.json").exists()) {
+            val jsonArray : MutableList<Zadania> = Gson().fromJson(FileReader(File(letDirectory,"Records.json")), object : TypeToken<MutableList<Zadania>>(){}.type)
 
-            val lineList = mutableListOf<String>()
-            var count = 0;
 
-            inputStream.bufferedReader().useLines { lines -> lines.forEach { lineList.add(it) } }
-            lineList.forEach {
-                count++
-            }
-
-            val List = generateDummyList(count)
-            binding.rec.adapter = Adapter(List)
+            val list = generateDummyList(jsonArray.size)
+//            Log.d("hehe", "hehe: ")
+            binding.rec.adapter = Adapter(list)
             binding.rec.layoutManager = LinearLayoutManager(this.context)
             binding.rec.setHasFixedSize(true)
         }
@@ -101,22 +98,20 @@ class TodoList : Fragment() {
 
         val path = context?.getExternalFilesDir(null)
         val letDirectory = File(path, "LET")
-        if(File(letDirectory,"Records.txt").exists()) {
-            val inputStream: InputStream = File(letDirectory, "Records.txt").inputStream()
-            val lineList = mutableListOf<String>()
-            inputStream.bufferedReader().useLines { lines -> lines.forEach { lineList.add(it) } }
-            lineList.forEach {
-                var lines = it.split(";")
-
+        var count = 0
+        if(File(letDirectory,"Records.json").exists()) {
+            val jsonArray : MutableList<Zadania> = Gson().fromJson(FileReader(File(letDirectory,"Records.json")), object : TypeToken<MutableList<Zadania>>(){}.type)
+            while(count < jsonArray.size){
                 val drawable = R.drawable.ic_baseline_delete_24
                 val item = CardView(
-                    lines[1],
-                    lines[3],
+                    jsonArray[count].title.toString(),
+                    jsonArray[count].desc.toString(),
                     drawable,
-                    "Termin: " + lines[2],
-                    "Priorytet: " + lines[4]
+                    "Termin: " + jsonArray[count].date,
+                    "Priorytet: " + jsonArray[count].prior.toString()
                 )
                 list += item
+                count++
             }
         }
         return list

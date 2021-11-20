@@ -1,6 +1,5 @@
 package com.example.aplikacjazarzadzaniazadaniami
 
-import android.R.attr
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,20 +13,11 @@ import android.view.MotionEvent
 import android.view.View.OnTouchListener
 import android.view.inputmethod.InputMethodManager
 import android.app.Activity
-import android.content.Intent as Intent
-import android.R.attr.data
-import android.content.Context
-import android.util.Log
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStreamWriter
-import android.content.Context.MODE_PRIVATE
-import android.graphics.Color
-import android.widget.RadioButton
-import java.io.File
-import java.lang.Exception
-import java.text.DateFormat
-import java.text.SimpleDateFormat
+import android.util.JsonReader
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.io.*
+import java.lang.Boolean.*
 import java.util.*
 
 
@@ -72,49 +62,60 @@ class AddToList : Fragment() {
 
                 val letDirectory = File(path, "LET")
                 letDirectory.mkdirs()
-                val file = File(letDirectory, "Records.txt")
+                val file = File(letDirectory, "Records.json")
+
+                val zadanie = Zadania()
+
+                zadanie.id = 1
 
                 //switch
-                if(binding.notificationAdd.isChecked){
-                    file.appendText("1")
-                }else{
-                    file.appendText("0")
+                if (binding.notificationAdd.isChecked) {
+                    zadanie.notif = TRUE
+                } else {
+                    zadanie.notif = FALSE
                 }
-                file.appendText(";")
-
 
                 //title
-                file.appendText(binding.titleAdd.text.toString())
-                file.appendText(";")
+                zadanie.title = binding.titleAdd.text.toString()
 
                 //calendar
-                val selectedDate:Long = binding.dateAdd.date
-                calendar.timeInMillis = selectedDate
-                val dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT)
-                file.appendText(dateFormatter.format(calendar.time))
-                file.appendText(";")
+                zadanie.date = Date(binding.dateAdd.date)
 
                 //description
-                file.appendText(binding.descAdd.text.toString())
-                file.appendText(";")
+                zadanie.desc = binding.descAdd.text.toString()
 
                 //radiobutton
-                when{
-                    binding.radioAdd1.isChecked -> file.appendText("Najniższy")
-                    binding.radioAdd2.isChecked -> file.appendText("Niski")
-                    binding.radioAdd3.isChecked -> file.appendText("Średni")
-                    binding.radioAdd4.isChecked -> file.appendText("Wysoki")
-                    binding.radioAdd5.isChecked -> file.appendText("Najwyższy")
+                when {
+                    binding.radioAdd1.isChecked -> zadanie.prior = "Najniższy"
+                    binding.radioAdd2.isChecked -> zadanie.prior = "Niski"
+                    binding.radioAdd3.isChecked -> zadanie.prior = "Średni"
+                    binding.radioAdd4.isChecked -> zadanie.prior = "Wysoki"
+                    binding.radioAdd5.isChecked -> zadanie.prior = "Najwyższy"
                 }
 
-                file.appendText("\n")
-                Log.d("String",path.toString())
+                if(!file.exists()) {
+                    val jsonArray: MutableList<Zadania> = mutableListOf()
+                    jsonArray.add(zadanie)
+                    val jsonString = Gson().toJson(jsonArray)
+                    file.appendText(jsonString)
+                }else{
+                    val gson = Gson()
+                    val jsonArray : MutableList<Zadania> = gson.fromJson(FileReader(file), object : TypeToken<MutableList<Zadania>>(){}.type)
+                    jsonArray.add(zadanie)
+                    val jsonString = Gson().toJson(jsonArray)
+                    file.writeText(jsonString)
+                }
+
+//                Log.d("String",path.toString())
+
+
 
                 findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
                 //Log.d("Beniz", "hehe");
             }
         }
 
+        //scroll
         binding.descAdd.setOnTouchListener(OnTouchListener { v, event ->
             if (binding.descAdd.hasFocus()) {
                 v.parent.requestDisallowInterceptTouchEvent(true)
@@ -128,6 +129,7 @@ class AddToList : Fragment() {
             false
         })
 
+        //soft keyboard
         binding.scrollAdd.setOnTouchListener(OnTouchListener { v, event ->
                 val imm =
                     requireContext()!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
