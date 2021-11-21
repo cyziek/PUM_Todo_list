@@ -69,7 +69,6 @@ class TodoList : Fragment() {
 //        if(file.length() != 0L) {
 //            val inputStream: InputStream = File(letDirectory, "Records.txt").inputStream()
 //            val lineList = mutableListOf<String>()
-//            var chuj = 200
 //            var count = 1
 //
 //            inputStream.bufferedReader().useLines { lines -> lines.forEach { lineList.add(it)} }
@@ -83,7 +82,6 @@ class TodoList : Fragment() {
 //                textView.text = it
 //
 //                // Add TextView to LinearLayout
-//                chuj += 200
 //                count++
 //                binding.todoId?.addView(textView)
 //            }
