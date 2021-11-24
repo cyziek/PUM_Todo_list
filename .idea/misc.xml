@@ -9,14 +9,18 @@
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.22083333333333333" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/ic_baseline_radio_button_checked_24.xml" value="0.10462962962962963" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/ic_baseline_radio_button_unchecked_24.xml" value="0.38177083333333334" />
+        <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/ic_launcher_background.xml" value="0.21927083333333333" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/rd_button.xml" value="0.38177083333333334" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/card_view.xml" value="0.29760225669957685" />
+        <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/alert_dialog.xml" value="0.33" />
+        <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/card_view.xml" value="0.33" />
+        <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/card_view_zakupy.xml" value="0.33" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/content_main.xml" value="0.2" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/fragment_first.xml" value="0.5" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/fragment_second.xml" value="0.1802536231884058" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/list_add.xml" value="0.33" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/list_todo.xml" value="0.21730175077239958" />
+        <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/zakupy.xml" value="0.2269021739130435" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/menu/menu_main.xml" value="0.36" />
       </map>
     </option>

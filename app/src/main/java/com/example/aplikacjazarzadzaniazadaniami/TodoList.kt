@@ -1,40 +1,24 @@
 package com.example.aplikacjazarzadzaniazadaniami
 
-import android.icu.text.DateFormat
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import com.example.aplikacjazarzadzaniazadaniami.databinding.ListTodoBinding
-import android.view.Gravity
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.widget.LinearLayout
-import androidx.annotation.RequiresApi
 import java.io.File
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.FileReader
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
-import java.util.*
 import kotlin.collections.ArrayList
 
-
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 class TodoList : Fragment() {
 
     private var _binding: ListTodoBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -99,6 +83,7 @@ class TodoList : Fragment() {
         val path = context?.getExternalFilesDir(null)
         val letDirectory = File(path, "LET")
         var count = 0
+        val format = SimpleDateFormat("dd/MM/yyy")
         if(File(letDirectory,"Records.json").exists()) {
             val jsonArray : MutableList<Zadania> = Gson().fromJson(FileReader(File(letDirectory,"Records.json")), object : TypeToken<MutableList<Zadania>>(){}.type)
             while(count < jsonArray.size){
@@ -107,7 +92,7 @@ class TodoList : Fragment() {
                     jsonArray[count].title.toString(),
                     jsonArray[count].desc.toString(),
                     drawable,
-                    "Termin: " + jsonArray[count].date,
+                    "Termin: " + format.format(jsonArray[count].date),
                     "Priorytet: " + jsonArray[count].prior.toString()
                 )
                 list += item

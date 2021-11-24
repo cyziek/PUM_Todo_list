@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/zadania">
 
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/zadania"
         android:name="com.example.aplikacjazarzadzaniazadaniami.TodoList"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/list_todo">
@@ -14,6 +14,12 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_self"
+            app:destination="@id/zadania" />
+        <action
+            android:id="@+id/action_FirstFragment_to_zakupy_lista"
+            app:destination="@id/zakupy" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -23,9 +29,24 @@
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            app:destination="@id/zadania" />
         <argument
             android:name="title_add"
             app:argType="string" />
+        <action
+            android:id="@+id/action_SecondFragment_to_zakupy_lista"
+            app:destination="@id/zakupy" />
+    </fragment>
+    <fragment
+        android:id="@+id/zakupy"
+        android:name="com.example.aplikacjazarzadzaniazadaniami.Zakupy"
+        android:label="@string/third_fragment_label"
+        tools:layout="@layout/zakupy" >
+        <action
+            android:id="@+id/action_zakupy_lista_to_SecondFragment"
+            app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_zakupy_lista_to_FirstFragment"
+            app:destination="@id/zadania" />
     </fragment>
 </navigation>

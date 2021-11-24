@@ -6,11 +6,10 @@
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">Todo List</string>
     <string name="second_fragment_label">Dodaj zadanie</string>
+    <string name="third_fragment_label">Zakupy</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="najwyzszy">Najwyższy</string>
     <string name="powiadomienia">Powiadomienia</string>
     <string name="najnizszy">Najniższy</string>
@@ -18,7 +17,4 @@
     <string name="sredni">Średni</string>
     <string name="wysoki">Wysoki</string>
     <string name="opis">Opis</string>
-    <string name="clicked_on_me">You clicked on me.</string>
-    <string name="click_on_me">Click on me</string>
-    <item type="id" name="TEXT_ID" />
 </resources>
