@@ -1,27 +1,14 @@
 package com.example.aplikacjazarzadzaniazadaniami
 
+import android.app.AlertDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.ui.AppBarConfiguration
-import com.example.aplikacjazarzadzaniazadaniami.databinding.ActivityMainBinding
-import com.example.aplikacjazarzadzaniazadaniami.databinding.ZakupyBinding
-import android.R
-import android.app.AlertDialog
-import android.widget.Toolbar
+import android.widget.Button
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import java.io.File
-import java.io.FileReader
-import java.text.SimpleDateFormat
-import kotlin.random.Random
-import android.content.DialogInterface
-import android.text.InputType
-import android.view.ContextThemeWrapper
-import android.widget.EditText
+import com.example.aplikacjazarzadzaniazadaniami.databinding.ZakupyBinding
 
 
 class Zakupy : Fragment() {
@@ -50,24 +37,34 @@ class Zakupy : Fragment() {
         binding.rec1.setHasFixedSize(true)
 
         binding.fab1.setOnClickListener{
-            val alert: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this.context, R.style.ThemeOverlay_Material_Dialog_Alert))
-            alert.setTitle("Podaj przedmiot")
 
-            val input = EditText(this.context)
-            input.hint = "Przedmiot"
-            input.inputType = InputType.TYPE_CLASS_TEXT
-            alert.setView(input)
+            val builder = AlertDialog.Builder(this.context,R.style.AlertDialogCustom)
+                .create()
+            val view = layoutInflater.inflate(R.layout.custom_dialog,null)
+            val  button = view.findViewById<Button>(R.id.dialogDismiss_button)
+            builder.setView(view)
+            button.setOnClickListener {
+                builder.dismiss()
+            }
+            builder.setCanceledOnTouchOutside(false)
+            builder.show()
 
-            alert.setPositiveButton(
-                "Dodaj",
-                DialogInterface.OnClickListener { dialog, whichButton ->
-                    //Your action here
-                })
-
-            alert.setNegativeButton("Anuluj",
-                DialogInterface.OnClickListener { dialog, whichButton -> })
-
-            alert.show()
+//            alert.setTitle("Podaj przedmiot")
+//            val input = EditText(this.context)
+//            input.hint = "Przedmiot"
+//            input.inputType = InputType.TYPE_CLASS_TEXT
+//            alert.setView(input)
+//
+//            alert.setPositiveButton(
+//                "Dodaj",
+//                DialogInterface.OnClickListener { dialog, whichButton ->
+//                    //Your action here
+//                })
+//
+//            alert.setNegativeButton("Anuluj",
+//                DialogInterface.OnClickListener { dialog, whichButton -> })
+//
+//            alert.show()
 //                val index = 0;
 //
 //                val newItem = CardViewZakupy(
@@ -90,7 +87,7 @@ class Zakupy : Fragment() {
 //            )
 //            list += item
 //        }
-////                count++
+//                count++
 //        return list
 //    }
 

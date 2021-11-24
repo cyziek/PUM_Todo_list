@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.24537037037037038" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/edit_text_border.xml" value="0.38177083333333334" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/edit_text_style.xml" value="0.38177083333333334" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.37037037037037035" />
@@ -11,11 +12,13 @@
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/ic_baseline_radio_button_unchecked_24.xml" value="0.38177083333333334" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/ic_launcher_background.xml" value="0.21927083333333333" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/rd_button.xml" value="0.38177083333333334" />
+        <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/rounded_corner.xml" value="0.24537037037037038" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/alert_dialog.xml" value="0.33" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/card_view.xml" value="0.33" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/card_view_zakupy.xml" value="0.33" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/content_main.xml" value="0.2" />
+        <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/custom_dialog.xml" value="0.33" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/fragment_first.xml" value="0.5" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/fragment_second.xml" value="0.1802536231884058" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/list_add.xml" value="0.33" />

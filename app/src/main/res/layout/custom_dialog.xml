@@ -1,0 +1,58 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/edit_text_style">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Dodaj przedmiot"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:hint="Przedmiot"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:background="@drawable/edit_text_style"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/dialogDismiss_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="30dp"
+            android:text="Dodaj"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:background="@drawable/edit_text_style"
+            android:textSize="16sp" />
+        <Button
+            android:id="@+id/dialogAccept_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:text="Anuluj"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:background="@drawable/edit_text_style"
+            android:textSize="16sp" />
+    </LinearLayout>
+</RelativeLayout>
