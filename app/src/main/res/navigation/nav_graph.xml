@@ -36,6 +36,9 @@
         <action
             android:id="@+id/action_SecondFragment_to_zakupy_lista"
             app:destination="@id/zakupy" />
+        <action
+            android:id="@+id/action_SecondFragment_to_self"
+            app:destination="@+id/SecondFragment" />
     </fragment>
     <fragment
         android:id="@+id/zakupy"
