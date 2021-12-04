@@ -1,5 +1,6 @@
 package com.example.aplikacjazarzadzaniazadaniami
 
+import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,8 +8,15 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.ViewModel
 
-class AdapterZakupy(private val List: List<CardViewZakupy>) : RecyclerView.Adapter<AdapterZakupy.ViewHolder>(){
+
+
+
+class AdapterZakupy(private val List: List<CardViewZakupy>, private val listener: OnItemClickListener) :
+    RecyclerView.Adapter<AdapterZakupy.ViewHolder>(){
+
+    var checkBoxStateArray = SparseBooleanArray()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_view_zakupy,
@@ -19,15 +27,32 @@ class AdapterZakupy(private val List: List<CardViewZakupy>) : RecyclerView.Adapt
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = List[position]
+
         holder.textview1.text = currentItem.text1
-        holder.check1.isChecked = true
+
+        holder.check1.isChecked = currentItem.checkbox
 
     }
 
     override fun getItemCount() = List.size
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener{
         val textview1: TextView = itemView.findViewById(R.id.textview1)
         val check1: CheckBox = itemView.findViewById(R.id.check1)
+
+        init{
+            check1.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if(position != RecyclerView.NO_POSITION) {
+                listener.onItemClick(position)
+            }
+        }
+    }
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
     }
 }

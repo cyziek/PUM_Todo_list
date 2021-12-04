@@ -2,10 +2,13 @@ package com.example.aplikacjazarzadzaniazadaniami
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.service.autofill.OnClickAction
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -15,15 +18,19 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File
 import java.io.FileReader
+import org.json.JSONObject
+import java.lang.Boolean.FALSE
+import java.lang.Boolean.TRUE
 
 
-class Zakupy : Fragment() {
+class Zakupy : Fragment(), AdapterZakupy.OnItemClickListener{
 
     private var _binding: ZakupyBinding? = null
     private val binding get() = _binding!!
+    private var count = 1
 
     private val list = generateDummyList(10)
-    private val adapter = AdapterZakupy(list)
+    private val adapter = AdapterZakupy(list, this)
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +52,7 @@ class Zakupy : Fragment() {
 
             val list = generateDummyList(jsonArray.size)
 //            Log.d("hehe", "hehe: ")
-            binding.rec1.adapter = AdapterZakupy(list)
+            binding.rec1.adapter = AdapterZakupy(list, this)
             binding.rec1.layoutManager = LinearLayoutManager(this.context)
             binding.rec1.setHasFixedSize(true)
         }
@@ -72,8 +79,6 @@ class Zakupy : Fragment() {
 
                     val zakup = ZakupyClass()
 
-                    zakup.id = 1
-
                     zakup.item = przedmiot.text.toString()
 //                    Log.d("Hehe", przedmiot.text.toString())
                     zakup.itemPurchase = true
@@ -90,6 +95,18 @@ class Zakupy : Fragment() {
                         val jsonString = Gson().toJson(jsonArray)
                         file.writeText(jsonString)
                     }
+
+                    if(File(letDirectory,"Zakupy.json").exists()) {
+                        val jsonArray : MutableList<ZakupyClass> = Gson().fromJson(FileReader(File(letDirectory,"Zakupy.json")), object : TypeToken<MutableList<ZakupyClass>>(){}.type)
+
+
+                        val list = generateDummyList(jsonArray.size)
+                        binding.rec1.adapter = AdapterZakupy(list, this)
+                        binding.rec1.layoutManager = LinearLayoutManager(this.context)
+                        binding.rec1.setHasFixedSize(true)
+                    }
+                    Toast.makeText(context, "Dodanu przedmiot!", Toast.LENGTH_SHORT).show()
+                    builder.dismiss()
                 }else{
                     Toast.makeText(context, "Nie podano nazwy przedmiotu!", Toast.LENGTH_SHORT).show()
                 }
@@ -99,6 +116,26 @@ class Zakupy : Fragment() {
         }
     }
 
+    override fun onItemClick(position: Int) {
+        Toast.makeText(this.context, "Item $position clicked", Toast.LENGTH_SHORT).show()
+        val path = context?.getExternalFilesDir(null)
+        val letDirectory = File(path, "LET")
+        val file = File(letDirectory, "Zakupy.json")
+        if(File(letDirectory,"Zakupy.json").exists()) {
+            val jsonArray: MutableList<ZakupyClass> = Gson().fromJson(
+                FileReader(File(letDirectory, "Zakupy.json")),
+                object : TypeToken<MutableList<ZakupyClass>>() {}.type)
+
+            when (jsonArray[position].itemPurchase) {
+                true -> jsonArray[position].itemPurchase = false
+                false -> jsonArray[position].itemPurchase = true
+            }
+            val jsonString = Gson().toJson(jsonArray)
+            file.writeText(jsonString)
+            Log.d("Hehe", jsonArray[position].itemPurchase.toString())
+        }
+        adapter.notifyItemChanged(position)
+    }
 
     private fun generateDummyList(size: Int): List<CardViewZakupy>{
         val list = ArrayList<CardViewZakupy>()
@@ -111,8 +148,9 @@ class Zakupy : Fragment() {
             while(count < jsonArray.size){
                 val item = CardViewZakupy(
                     jsonArray[count].item.toString(),
-                    true
+                    jsonArray[count].itemPurchase
                 )
+                Log.d("Hehe", jsonArray[count].itemPurchase.toString())
                 list += item
                 count++
             }

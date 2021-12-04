@@ -1,5 +1,5 @@
 package com.example.aplikacjazarzadzaniazadaniami
 
-data class CardViewZakupy(val text1: String, val checkbox: Boolean) {
+data class CardViewZakupy(var text1: String, var checkbox: Boolean) {
 
 }

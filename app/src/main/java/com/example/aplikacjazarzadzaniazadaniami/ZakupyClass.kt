@@ -4,5 +4,5 @@ class ZakupyClass {
 
     var id: Int? = null
     var item: String? = null
-    var itemPurchase: Boolean? = null
+    var itemPurchase: Boolean = null == true
 }
