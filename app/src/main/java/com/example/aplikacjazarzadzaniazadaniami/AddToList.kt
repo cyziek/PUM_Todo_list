@@ -58,7 +58,7 @@ class AddToList : Fragment() {
             if(binding.descAdd.text.toString().trim().equals("") || binding.titleAdd.text.toString().trim().equals("")){
                 Toast.makeText(context, "Brak danych!", Toast.LENGTH_SHORT).show()
             }else{
-                Toast.makeText(context, "Dodano zadanie!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Dodano zadanie!!", Toast.LENGTH_SHORT).show()
 
                 val path = context?.getExternalFilesDir(null)
 
