@@ -9,8 +9,113 @@
         android:id="@+id/test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_marginTop="16dp"
+        android:text="Zadanie"
+        android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.045"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/termin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textSize="14dp"
+        android:textColor="@android:color/darker_gray"
+        android:text="termin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/test" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/powiadomienia"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="370dp"
+        android:layout_height="254dp"
+        android:layout_marginBottom="192dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/radiogroup_add1"
+        android:layout_width="350dp"
+        android:layout_height="58dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/desc">
+
+        <RadioButton
+            android:id="@+id/radio_add1"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:button="@android:color/transparent"
+            android:checked="true"
+            android:drawableTop="@drawable/rd_button"
+            android:drawablePadding="-20dp"
+            android:gravity="center"
+            android:text="@string/najnizszy" />
+
+        <RadioButton
+            android:id="@+id/radio_add2"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:button="@android:color/transparent"
+            android:drawableTop="@drawable/rd_button"
+            android:drawablePadding="-20dp"
+            android:gravity="center"
+            android:text="@string/niski" />
+
+        <RadioButton
+            android:id="@+id/radio_add3"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:button="@android:color/transparent"
+            android:drawableTop="@drawable/rd_button"
+            android:drawablePadding="-20dp"
+            android:gravity="center"
+            android:text="@string/sredni" />
+
+        <RadioButton
+            android:id="@+id/radio_add4"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:button="@android:color/transparent"
+            android:drawableTop="@drawable/rd_button"
+            android:drawablePadding="-20dp"
+            android:gravity="center"
+            android:text="@string/wysoki" />
+
+        <RadioButton
+            android:id="@+id/radio_add5"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:button="@android:color/transparent"
+            android:drawableTop="@drawable/rd_button"
+            android:drawablePadding="-20dp"
+            android:gravity="center"
+            android:text="@string/najwyzszy" />
+    </RadioGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>

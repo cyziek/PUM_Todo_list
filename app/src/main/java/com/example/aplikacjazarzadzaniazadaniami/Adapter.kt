@@ -4,11 +4,13 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
-class Adapter(private val List: List<CardView>, private val listener: OnItemClickListener) :
+class Adapter(private val List: List<CardView>, private val listener: OnItemClickListener, private val listener1: OnItemLongClickListener) :
     RecyclerView.Adapter<Adapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -20,9 +22,9 @@ class Adapter(private val List: List<CardView>, private val listener: OnItemClic
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = List[position]
+
         holder.textview1.text = currentItem.text1
         holder.textview2.text = currentItem.text2
-        holder.del.setImageResource(currentItem.imageResources)
         holder.textview3.text = currentItem.text3
         holder.textview4.text = currentItem.text4
 
@@ -38,16 +40,16 @@ class Adapter(private val List: List<CardView>, private val listener: OnItemClic
     override fun getItemCount() = List.size
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-        View.OnClickListener{
+        View.OnClickListener, View.OnLongClickListener{
 
         val textview1: TextView = itemView.findViewById(R.id.textview1)
         val textview2: TextView = itemView.findViewById(R.id.textview2)
-        val del: ImageView = itemView.findViewById(R.id.del)
         val textview3: TextView = itemView.findViewById(R.id.textview3)
         val textview4: TextView = itemView.findViewById(R.id.textview4)
 
         init{
             itemView.setOnClickListener(this)
+            itemView.setOnLongClickListener(this)
         }
 
         override fun onClick(v: View?) {
@@ -56,9 +58,21 @@ class Adapter(private val List: List<CardView>, private val listener: OnItemClic
                 listener.onItemClick(position)
             }
         }
+
+        override fun onLongClick(v: View?): Boolean {
+            val position = adapterPosition
+            if(position != RecyclerView.NO_POSITION) {
+                listener1.onItemLongClick(position)
+            }
+            return true
+        }
     }
 
     interface OnItemClickListener {
         fun onItemClick(position: Int)
+    }
+
+    interface OnItemLongClickListener{
+        fun onItemLongClick(position: Int)
     }
 }

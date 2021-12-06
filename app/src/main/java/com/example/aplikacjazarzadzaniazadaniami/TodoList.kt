@@ -1,11 +1,16 @@
 package com.example.aplikacjazarzadzaniazadaniami
 
+import android.app.AlertDialog
+import android.media.Image
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.SurfaceControl
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -18,11 +23,23 @@ import java.io.FileReader
 import java.text.SimpleDateFormat
 import kotlin.collections.ArrayList
 
-class TodoList : Fragment(), Adapter.OnItemClickListener {
+class TodoList : Fragment(), Adapter.OnItemClickListener, Adapter.OnItemLongClickListener {
 
     private var _binding: ListTodoBinding? = null
 
     private val binding get() = _binding!!
+
+    companion object {
+        private var pozycja: Int ?= null
+
+        fun setPozycja(pozycja: Int?) {
+            this.pozycja = pozycja
+        }
+
+        fun getPozycja(): Int? {
+            return pozycja
+        }
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +62,7 @@ class TodoList : Fragment(), Adapter.OnItemClickListener {
 
             val list = generateDummyList(jsonArray.size)
 //            Log.d("hehe", "hehe: ")
-            binding.rec.adapter = Adapter(list, this)
+            binding.rec.adapter = Adapter(list, this, this)
             binding.rec.layoutManager = LinearLayoutManager(this.context)
             binding.rec.setHasFixedSize(true)
         }
@@ -78,19 +95,46 @@ class TodoList : Fragment(), Adapter.OnItemClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
 
+
     }
 
     override fun onItemClick(position: Int){
         Toast.makeText(this.context, "Item $position clicked", Toast.LENGTH_SHORT).show()
-        val bundle = Bundle()
-        bundle.putInt("position", position)
-        val fragInfo: TaskViewer = TaskViewer()
-        fragInfo.arguments = bundle
 
-        fragInfo.let{ fragInfo ->
-            view?.findNavController()?.navigate(R.id.action_FirstFragment_to_task_viewer)
+        setPozycja(position)
+        findNavController().navigate(R.id.action_FirstFragment_to_task_viewer)
+    }
+
+    override fun onItemLongClick(position: Int){
+        val builder = AlertDialog.Builder(this.context,R.style.AlertDialogCustom)
+            .create()
+        val view = layoutInflater.inflate(R.layout.delete_dialog,null)
+        val button = view.findViewById<Button>(R.id.dialogDelete_dismiss)
+        val buttonacc = view.findViewById<Button>(R.id.dialogDelete_accept)
+        builder.setView(view)
+
+        button.setOnClickListener {
+            builder.dismiss()
+        }
+        buttonacc.setOnClickListener{
+            val path = context?.getExternalFilesDir(null)
+            val letDirectory = File(path, "LET")
+            val file = File(letDirectory, "Records.json")
+            if(File(letDirectory,"Records.json").exists()) {
+                val jsonArray: MutableList<Zadania> = Gson().fromJson(
+                    FileReader(File(letDirectory, "Records.json")),
+                    object : TypeToken<MutableList<Zadania>>() {}.type
+                )
+                jsonArray.removeAt(position)
+                val jsonString = Gson().toJson(jsonArray)
+                file.writeText(jsonString)
+            }
+            findNavController().navigate(R.id.action_FirstFragment_self)
+            builder.dismiss()
         }
 
+        builder.setCanceledOnTouchOutside(false)
+        builder.show()
     }
 
     private fun generateDummyList(size: Int): List<CardView>{
@@ -103,11 +147,9 @@ class TodoList : Fragment(), Adapter.OnItemClickListener {
         if(File(letDirectory,"Records.json").exists()) {
             val jsonArray : MutableList<Zadania> = Gson().fromJson(FileReader(File(letDirectory,"Records.json")), object : TypeToken<MutableList<Zadania>>(){}.type)
             while(count < jsonArray.size){
-                val drawable = R.drawable.ic_baseline_delete_24
                 val item = CardView(
                     jsonArray[count].title.toString(),
                     jsonArray[count].desc.toString(),
-                    drawable,
                     "Termin: " + format.format(jsonArray[count].date),
                     "Priorytet: " + jsonArray[count].prior.toString()
                 )

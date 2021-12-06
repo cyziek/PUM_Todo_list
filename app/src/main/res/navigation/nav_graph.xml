@@ -23,10 +23,6 @@
         <action
             android:id="@+id/action_FirstFragment_to_task_viewer"
             app:destination="@id/taskviewer" />
-        <argument
-            android:name="position"
-            app:argType="long"
-            android:defaultValue="-1L" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -64,9 +60,5 @@
         <action
             android:id="@+id/action_task_viewer_to_first_fragment"
             app:destination="@id/zadania" />
-        <argument
-            android:name="position"
-            app:argType="long"
-            android:defaultValue="-1L" />
     </fragment>
 </navigation>

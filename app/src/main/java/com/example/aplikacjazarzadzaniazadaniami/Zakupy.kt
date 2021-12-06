@@ -104,7 +104,7 @@ class Zakupy : Fragment(), AdapterZakupy.OnItemClickListener{
                         binding.rec1.layoutManager = LinearLayoutManager(this.context)
                         binding.rec1.setHasFixedSize(true)
                     }
-                    Toast.makeText(context, "Dodanu przedmiot!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Dodano przedmiot!", Toast.LENGTH_SHORT).show()
                     builder.dismiss()
                 }else{
                     Toast.makeText(context, "Nie podano nazwy przedmiotu!", Toast.LENGTH_SHORT).show()
