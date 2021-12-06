@@ -20,6 +20,13 @@
         <action
             android:id="@+id/action_FirstFragment_to_zakupy_lista"
             app:destination="@id/zakupy" />
+        <action
+            android:id="@+id/action_FirstFragment_to_task_viewer"
+            app:destination="@id/taskviewer" />
+        <argument
+            android:name="position"
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -46,10 +53,20 @@
         android:label="@string/third_fragment_label"
         tools:layout="@layout/zakupy" >
         <action
-            android:id="@+id/action_zakupy_lista_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
-        <action
             android:id="@+id/action_zakupy_lista_to_FirstFragment"
             app:destination="@id/zadania" />
+    </fragment>
+    <fragment
+        android:id="@+id/taskviewer"
+        android:name="com.example.aplikacjazarzadzaniazadaniami.TaskViewer"
+        android:label="Podgląd Zadania"
+        tools:layout="@layout/task_viewer" >
+        <action
+            android:id="@+id/action_task_viewer_to_first_fragment"
+            app:destination="@id/zadania" />
+        <argument
+            android:name="position"
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
 </navigation>

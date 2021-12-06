@@ -3,8 +3,11 @@ package com.example.aplikacjazarzadzaniazadaniami
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.SurfaceControl
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.aplikacjazarzadzaniazadaniami.databinding.ListTodoBinding
 import java.io.File
@@ -15,7 +18,7 @@ import java.io.FileReader
 import java.text.SimpleDateFormat
 import kotlin.collections.ArrayList
 
-class TodoList : Fragment() {
+class TodoList : Fragment(), Adapter.OnItemClickListener {
 
     private var _binding: ListTodoBinding? = null
 
@@ -42,7 +45,7 @@ class TodoList : Fragment() {
 
             val list = generateDummyList(jsonArray.size)
 //            Log.d("hehe", "hehe: ")
-            binding.rec.adapter = Adapter(list)
+            binding.rec.adapter = Adapter(list, this)
             binding.rec.layoutManager = LinearLayoutManager(this.context)
             binding.rec.setHasFixedSize(true)
         }
@@ -73,6 +76,19 @@ class TodoList : Fragment() {
 
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        }
+
+    }
+
+    override fun onItemClick(position: Int){
+        Toast.makeText(this.context, "Item $position clicked", Toast.LENGTH_SHORT).show()
+        val bundle = Bundle()
+        bundle.putInt("position", position)
+        val fragInfo: TaskViewer = TaskViewer()
+        fragInfo.arguments = bundle
+
+        fragInfo.let{ fragInfo ->
+            view?.findNavController()?.navigate(R.id.action_FirstFragment_to_task_viewer)
         }
 
     }

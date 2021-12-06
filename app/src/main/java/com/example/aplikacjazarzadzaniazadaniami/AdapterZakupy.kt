@@ -1,22 +1,14 @@
 package com.example.aplikacjazarzadzaniazadaniami
 
-import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.lifecycle.ViewModel
-
-
-
 
 class AdapterZakupy(private val List: List<CardViewZakupy>, private val listener: OnItemClickListener) :
     RecyclerView.Adapter<AdapterZakupy.ViewHolder>(){
-
-    var checkBoxStateArray = SparseBooleanArray()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_view_zakupy,

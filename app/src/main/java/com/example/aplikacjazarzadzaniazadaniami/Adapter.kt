@@ -1,5 +1,6 @@
 package com.example.aplikacjazarzadzaniazadaniami
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,7 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class Adapter(private val List: List<CardView>) : RecyclerView.Adapter<Adapter.ViewHolder>(){
+class Adapter(private val List: List<CardView>, private val listener: OnItemClickListener) :
+    RecyclerView.Adapter<Adapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_view,
@@ -24,15 +26,39 @@ class Adapter(private val List: List<CardView>) : RecyclerView.Adapter<Adapter.V
         holder.textview3.text = currentItem.text3
         holder.textview4.text = currentItem.text4
 
+        when (currentItem.text4) {
+            "Priorytet: Najwyższy" -> holder.textview4.setTextColor(Color.parseColor("#FF0000"))
+            "Priorytet: Wysoki" -> holder.textview4.setTextColor(Color.parseColor("#FFA500"))
+            "Priorytet: Średni" -> holder.textview4.setTextColor(Color.parseColor("#c2b12f"))
+            "Priorytet: Niski" -> holder.textview4.setTextColor(Color.parseColor("#0000FF"))
+            "Priorytet: Najniższy" -> holder.textview4.setTextColor(Color.parseColor("#147306"))
+        }
     }
 
     override fun getItemCount() = List.size
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener{
+
         val textview1: TextView = itemView.findViewById(R.id.textview1)
         val textview2: TextView = itemView.findViewById(R.id.textview2)
         val del: ImageView = itemView.findViewById(R.id.del)
         val textview3: TextView = itemView.findViewById(R.id.textview3)
         val textview4: TextView = itemView.findViewById(R.id.textview4)
+
+        init{
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if(position != RecyclerView.NO_POSITION) {
+                listener.onItemClick(position)
+            }
+        }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
     }
 }

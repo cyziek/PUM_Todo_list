@@ -27,7 +27,6 @@ class Zakupy : Fragment(), AdapterZakupy.OnItemClickListener{
 
     private var _binding: ZakupyBinding? = null
     private val binding get() = _binding!!
-    private var count = 1
 
     private val list = generateDummyList(10)
     private val adapter = AdapterZakupy(list, this)
