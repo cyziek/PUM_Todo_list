@@ -13,25 +13,27 @@ import android.view.MotionEvent
 import android.view.View.OnTouchListener
 import android.view.inputmethod.InputMethodManager
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.os.Build
-import android.util.JsonReader
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.*
 import java.lang.Boolean.*
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
+import android.content.Intent
+import android.net.Uri
+
+import androidx.core.app.ActivityCompat.startActivityForResult
 
 class AddToList : Fragment() {
 
     private var _binding: ListAddBinding? = null
 
     private val binding get() = _binding!!
+
+    private val pickImage = 100
+    private var imageUri: Uri? = null
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +48,15 @@ class AddToList : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.imageView.setOnClickListener{
+            val intent = Intent()
+            intent.type = "image/*"
+            intent.action = Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), pickImage)
+        }
+
+        binding.camera.setOnClickListener{}
 
         val calendar = Calendar.getInstance()
 
@@ -138,6 +149,14 @@ class AddToList : Fragment() {
                 imm.hideSoftInputFromWindow(view.windowToken, 0)
                 false
             })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK && requestCode == pickImage) {
+            imageUri = data?.data
+            binding.img.setImageURI(imageUri)
+        }
     }
 
     override fun onDestroyView() {

@@ -99,8 +99,6 @@ class TodoList : Fragment(), Adapter.OnItemClickListener, Adapter.OnItemLongClic
     }
 
     override fun onItemClick(position: Int){
-        Toast.makeText(this.context, "Item $position clicked", Toast.LENGTH_SHORT).show()
-
         setPozycja(position)
         findNavController().navigate(R.id.action_FirstFragment_to_task_viewer)
     }
