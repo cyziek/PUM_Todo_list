@@ -65,6 +65,8 @@ class AddToList : Fragment() {
 
         binding.camera.setOnClickListener{
             (activity as MainActivity).checkPermission(Manifest.permission.CAMERA, camera)
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(intent, 0)
         }
 
         val calendar = Calendar.getInstance()
@@ -165,6 +167,7 @@ class AddToList : Fragment() {
             binding.img.setImageURI(imageUri)
             filePath = imageUri?.let { this.context?.let { it1 -> getPath(it1, it) } }.toString()
             Log.d("Hehe", filePath)
+        }else if(resultCode == RESULT_OK && requestCode == camera){
         }
     }
 
