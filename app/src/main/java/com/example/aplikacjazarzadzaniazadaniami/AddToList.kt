@@ -25,15 +25,12 @@ import java.io.*
 import java.lang.Boolean.*
 import java.util.*
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.util.Log
 import android.provider.MediaStore
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 
 class AddToList : Fragment() {
 
@@ -42,7 +39,7 @@ class AddToList : Fragment() {
     private val binding get() = _binding!!
 
     private val pickImage = 100
-    private val STORAGE_PERMISSION_CODE = 101
+    private val camera = 101
     private var imageUri: Uri? = null
     private var filePath = ""
 
@@ -58,16 +55,17 @@ class AddToList : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE)
 
-        binding.imageView.setOnClickListener{
-            val intent = Intent()
+        binding.imageView.setOnClickListener {
+            (activity as MainActivity).checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, pickImage)
+            val intent = Intent("android.intent.action.GET_CONTENT")
             intent.type = "image/*"
-            intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), pickImage)
+            startActivityForResult(intent, pickImage)
         }
 
-        binding.camera.setOnClickListener{}
+        binding.camera.setOnClickListener{
+            (activity as MainActivity).checkPermission(Manifest.permission.CAMERA, camera)
+        }
 
         val calendar = Calendar.getInstance()
 
@@ -169,37 +167,6 @@ class AddToList : Fragment() {
             Log.d("Hehe", filePath)
         }
     }
-
-    private fun checkPermission(permission: String, requestCode: Int) {
-        if (this.context?.let { ContextCompat.checkSelfPermission(it, permission) } == PackageManager.PERMISSION_DENIED) {
-
-            // Requesting the permission
-            ActivityCompat.requestPermissions(this.context as Activity, arrayOf(permission), requestCode)
-        }else{
-            Toast.makeText(this.context, "Hehe", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-//    override fun onRequestPermissionsResult(requestCode: Int,
-//                                            permissions: Array<String>,
-//                                            grantResults: IntArray) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        if (requestCode == pickImage) {
-//            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                Toast.makeText(this.context, "Camera Permission Granted", Toast.LENGTH_SHORT).show()
-//            } else {
-//                Toast.makeText(this.context, "Camera Permission Denied", Toast.LENGTH_SHORT).show()
-//                findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
-//            }
-//        } else if (requestCode == STORAGE_PERMISSION_CODE) {
-//            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                Toast.makeText(this.context, "Storage Permission Granted", Toast.LENGTH_SHORT).show()
-//            } else {
-//                Toast.makeText(this.context, "Storage Permission Denied", Toast.LENGTH_SHORT).show()
-//                findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
-//            }
-//        }
-//    }
 
     fun getPath(context: Context, uri: Uri): String? {
         val isKitKatorAbove = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT

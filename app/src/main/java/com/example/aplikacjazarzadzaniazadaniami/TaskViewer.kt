@@ -14,10 +14,6 @@ import java.io.FileReader
 import java.text.SimpleDateFormat
 import android.graphics.BitmapFactory
 
-import android.graphics.Bitmap
-
-
-
 
 class TaskViewer : Fragment() {
 
@@ -65,6 +61,8 @@ class TaskViewer : Fragment() {
             if(jsonArray[pozycja!!].imgpath != ""){
                 val myBitmap = BitmapFactory.decodeFile(jsonArray[pozycja!!].imgpath)
                 binding.imgView.setImageBitmap(myBitmap)
+                val image = resources.getIdentifier("@drawable/img", null, null)
+                binding.imgView.setBackgroundResource(image)
             }
         }
         return binding.root
