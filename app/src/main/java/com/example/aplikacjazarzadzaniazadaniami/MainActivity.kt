@@ -2,7 +2,6 @@ package com.example.aplikacjazarzadzaniazadaniami
 
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController

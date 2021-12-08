@@ -26,11 +26,13 @@ import java.lang.Boolean.*
 import java.util.*
 import android.content.Intent
 import android.database.Cursor
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.util.Log
 import android.provider.MediaStore
+import android.provider.MediaStore.Images
 
 class AddToList : Fragment() {
 
@@ -66,7 +68,7 @@ class AddToList : Fragment() {
         binding.camera.setOnClickListener{
             (activity as MainActivity).checkPermission(Manifest.permission.CAMERA, camera)
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(intent, 0)
+            startActivityForResult(intent, camera)
         }
 
         val calendar = Calendar.getInstance()
@@ -168,6 +170,11 @@ class AddToList : Fragment() {
             filePath = imageUri?.let { this.context?.let { it1 -> getPath(it1, it) } }.toString()
             Log.d("Hehe", filePath)
         }else if(resultCode == RESULT_OK && requestCode == camera){
+            var imageBitmap = data?.extras?.get("data") as Bitmap
+            binding.img.setImageBitmap(imageBitmap)
+            imageUri = this.context?.let { getImageUri(it, imageBitmap) }
+            var path = this.context?.let { imageUri?.let { it1 -> getPath(it, it1) } }
+            filePath = path.toString()
         }
     }
 
@@ -239,6 +246,13 @@ class AddToList : Fragment() {
 
     fun isMediaDocument(uri: Uri): Boolean {
         return "com.android.providers.media.documents" == uri.authority
+    }
+
+    fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path = Images.Media.insertImage(inContext.contentResolver, inImage, System.currentTimeMillis().toString(), null)
+        return Uri.parse(path)
     }
 
     override fun onDestroyView() {

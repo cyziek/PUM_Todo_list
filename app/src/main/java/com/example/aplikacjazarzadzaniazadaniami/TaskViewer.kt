@@ -1,6 +1,5 @@
 package com.example.aplikacjazarzadzaniazadaniami
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +12,7 @@ import java.io.File
 import java.io.FileReader
 import java.text.SimpleDateFormat
 import android.graphics.BitmapFactory
+import android.util.Log
 
 
 class TaskViewer : Fragment() {
@@ -58,11 +58,15 @@ class TaskViewer : Fragment() {
             binding.radioAdd4.isEnabled = false
             binding.radioAdd5.isEnabled = false
 
-            if(jsonArray[pozycja!!].imgpath != ""){
-                val myBitmap = BitmapFactory.decodeFile(jsonArray[pozycja!!].imgpath)
-                binding.imgView.setImageBitmap(myBitmap)
-                val image = resources.getIdentifier("@drawable/img", null, null)
-                binding.imgView.setBackgroundResource(image)
+            if(jsonArray[pozycja].imgpath != ""){
+                if(File(jsonArray[pozycja].imgpath.toString()).exists()) {
+                    Log.d("hehe", jsonArray[pozycja].imgpath.toString())
+                    val myBitmap = BitmapFactory.decodeFile(jsonArray[pozycja].imgpath)
+                    binding.imgView.setImageBitmap(myBitmap)
+                    binding.imgView.setBackgroundResource(R.drawable.img)
+                }else{
+                    binding.imgView.setBackgroundResource(R.drawable.img_1)
+                }
             }
         }
         return binding.root

@@ -1,24 +1,12 @@
 package com.example.aplikacjazarzadzaniazadaniami
 
-import android.Manifest
-import android.app.Activity
 import android.app.AlertDialog
-import android.content.pm.PackageManager
-import android.media.Image
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.SurfaceControl
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.aplikacjazarzadzaniazadaniami.databinding.ListTodoBinding
 import java.io.File
@@ -149,9 +137,16 @@ class TodoList : Fragment(), Adapter.OnItemClickListener, Adapter.OnItemLongClic
         if(File(letDirectory,"Records.json").exists()) {
             val jsonArray : MutableList<Zadania> = Gson().fromJson(FileReader(File(letDirectory,"Records.json")), object : TypeToken<MutableList<Zadania>>(){}.type)
             while(count < jsonArray.size){
+                var split = jsonArray[count].desc.toString().split("\n")
+                var output =
+                    if(split[0].length > 30){
+                        split[0].substring(0, 30) + "..."
+                    }else{
+                        split[0]
+                    }
                 val item = CardView(
                     jsonArray[count].title.toString(),
-                    jsonArray[count].desc.toString(),
+                    output,
                     "Termin: " + format.format(jsonArray[count].date),
                     "Priorytet: " + jsonArray[count].prior.toString()
                 )
