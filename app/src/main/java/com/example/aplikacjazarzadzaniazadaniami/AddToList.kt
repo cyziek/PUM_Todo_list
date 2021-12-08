@@ -1,5 +1,6 @@
 package com.example.aplikacjazarzadzaniazadaniami
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,6 +15,8 @@ import android.view.View.OnTouchListener
 import android.view.inputmethod.InputMethodManager
 import android.app.Activity
 import android.app.Activity.RESULT_OK
+import android.content.ContentUris
+import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
@@ -22,9 +25,15 @@ import java.io.*
 import java.lang.Boolean.*
 import java.util.*
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.database.Cursor
 import android.net.Uri
-
-import androidx.core.app.ActivityCompat.startActivityForResult
+import android.os.Environment
+import android.provider.DocumentsContract
+import android.util.Log
+import android.provider.MediaStore
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 class AddToList : Fragment() {
 
@@ -33,13 +42,14 @@ class AddToList : Fragment() {
     private val binding get() = _binding!!
 
     private val pickImage = 100
+    private val STORAGE_PERMISSION_CODE = 101
     private var imageUri: Uri? = null
+    private var filePath = ""
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-
         _binding = ListAddBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -48,6 +58,7 @@ class AddToList : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE)
 
         binding.imageView.setOnClickListener{
             val intent = Intent()
@@ -79,8 +90,6 @@ class AddToList : Fragment() {
 
                 val zadanie = Zadania()
 
-                zadanie.id = 1
-
                 //switch
                 if (binding.notificationAdd.isChecked) {
                     zadanie.notif = TRUE
@@ -106,6 +115,8 @@ class AddToList : Fragment() {
                     binding.radioAdd5.isChecked -> zadanie.prior = "Najwyższy"
                 }
 
+                zadanie.imgpath = filePath
+
                 if(!file.exists()) {
                     val jsonArray: MutableList<Zadania> = mutableListOf()
                     jsonArray.add(zadanie)
@@ -122,9 +133,7 @@ class AddToList : Fragment() {
 //                Log.d("String",path.toString())
 
 
-
                 findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
-                //Log.d("Beniz", "hehe");
             }
         }
 
@@ -156,7 +165,110 @@ class AddToList : Fragment() {
         if (resultCode == RESULT_OK && requestCode == pickImage) {
             imageUri = data?.data
             binding.img.setImageURI(imageUri)
+            filePath = imageUri?.let { this.context?.let { it1 -> getPath(it1, it) } }.toString()
+            Log.d("Hehe", filePath)
         }
+    }
+
+    private fun checkPermission(permission: String, requestCode: Int) {
+        if (this.context?.let { ContextCompat.checkSelfPermission(it, permission) } == PackageManager.PERMISSION_DENIED) {
+
+            // Requesting the permission
+            ActivityCompat.requestPermissions(this.context as Activity, arrayOf(permission), requestCode)
+        }else{
+            Toast.makeText(this.context, "Hehe", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+//    override fun onRequestPermissionsResult(requestCode: Int,
+//                                            permissions: Array<String>,
+//                                            grantResults: IntArray) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        if (requestCode == pickImage) {
+//            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                Toast.makeText(this.context, "Camera Permission Granted", Toast.LENGTH_SHORT).show()
+//            } else {
+//                Toast.makeText(this.context, "Camera Permission Denied", Toast.LENGTH_SHORT).show()
+//                findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+//            }
+//        } else if (requestCode == STORAGE_PERMISSION_CODE) {
+//            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                Toast.makeText(this.context, "Storage Permission Granted", Toast.LENGTH_SHORT).show()
+//            } else {
+//                Toast.makeText(this.context, "Storage Permission Denied", Toast.LENGTH_SHORT).show()
+//                findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+//            }
+//        }
+//    }
+
+    fun getPath(context: Context, uri: Uri): String? {
+        val isKitKatorAbove = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+
+        // DocumentProvider
+        if (isKitKatorAbove && DocumentsContract.isDocumentUri(context, uri)) {
+            // ExternalStorageProvider
+            if (isExternalStorageDocument(uri)) {
+                val docId = DocumentsContract.getDocumentId(uri)
+                val split = docId.split(":".toRegex()).toTypedArray()
+                val type = split[0]
+                if ("primary".equals(type, ignoreCase = true)) {
+                    return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
+                }
+
+            } else if (isDownloadsDocument(uri)) {
+                val id = DocumentsContract.getDocumentId(uri)
+                val contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id))
+                return getDataColumn(context, contentUri, null, null)
+            } else if (isMediaDocument(uri)) {
+                val docId = DocumentsContract.getDocumentId(uri)
+                val split = docId.split(":".toRegex()).toTypedArray()
+                val type = split[0]
+                var contentUri: Uri? = null
+                if ("image" == type) {
+                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                } else if ("video" == type) {
+                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                } else if ("audio" == type) {
+                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                }
+                val selection = "_id=?"
+                val selectionArgs = arrayOf(split[1])
+                return getDataColumn(context, contentUri, selection, selectionArgs)
+            }
+        } else if ("content".equals(uri.scheme, ignoreCase = true)) {
+            return getDataColumn(context, uri, null, null)
+        } else if ("file".equals(uri.scheme, ignoreCase = true)) {
+            return uri.path
+        }
+        return null
+    }
+
+    fun getDataColumn(context: Context, uri: Uri?, selection: String?, selectionArgs: Array<String>?): String? {
+        var cursor: Cursor? = null
+        val column = "_data"
+        val projection = arrayOf(column)
+        try {
+            cursor = uri?.let { context.getContentResolver().query(it, projection, selection, selectionArgs,null) }
+            if (cursor != null && cursor.moveToFirst()) {
+                val column_index: Int = cursor.getColumnIndexOrThrow(column)
+                return cursor.getString(column_index)
+            }
+        } finally {
+            if (cursor != null) cursor.close()
+        }
+        return null
+    }
+
+    fun isExternalStorageDocument(uri: Uri): Boolean {
+        return "com.android.externalstorage.documents" == uri.authority
+    }
+
+    fun isDownloadsDocument(uri: Uri): Boolean {
+        return "com.android.providers.downloads.documents" == uri.authority
+    }
+
+    fun isMediaDocument(uri: Uri): Boolean {
+        return "com.android.providers.media.documents" == uri.authority
     }
 
     override fun onDestroyView() {

@@ -1,5 +1,6 @@
 package com.example.aplikacjazarzadzaniazadaniami
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +12,12 @@ import com.google.gson.reflect.TypeToken
 import java.io.File
 import java.io.FileReader
 import java.text.SimpleDateFormat
+import android.graphics.BitmapFactory
+
+import android.graphics.Bitmap
+
+
+
 
 class TaskViewer : Fragment() {
 
@@ -54,6 +61,11 @@ class TaskViewer : Fragment() {
             binding.radioAdd3.isEnabled = false
             binding.radioAdd4.isEnabled = false
             binding.radioAdd5.isEnabled = false
+
+            if(jsonArray[pozycja!!].imgpath != ""){
+                val myBitmap = BitmapFactory.decodeFile(jsonArray[pozycja!!].imgpath)
+                binding.imgView.setImageBitmap(myBitmap)
+            }
         }
         return binding.root
     }
