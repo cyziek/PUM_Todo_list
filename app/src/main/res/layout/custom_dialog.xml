@@ -28,6 +28,8 @@
             android:layout_gravity="center"
             android:id="@+id/itemname"
             android:hint="Przedmiot"
+            android:maxLength="20"
+            android:inputType="text"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:background="@drawable/edit_text_style"

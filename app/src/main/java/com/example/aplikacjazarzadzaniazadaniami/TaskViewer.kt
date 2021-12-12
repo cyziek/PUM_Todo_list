@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat
 import android.graphics.BitmapFactory
 import android.util.Log
 
-
 class TaskViewer : Fragment() {
 
     private var _binding: TaskViewerBinding? = null

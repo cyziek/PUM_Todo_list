@@ -48,7 +48,6 @@ class Zakupy : Fragment(), AdapterZakupy.OnItemClickListener{
         if(File(letDirectory,"Zakupy.json").exists()) {
             val jsonArray : MutableList<ZakupyClass> = Gson().fromJson(FileReader(File(letDirectory,"Zakupy.json")), object : TypeToken<MutableList<ZakupyClass>>(){}.type)
 
-
             val list = generateDummyList(jsonArray.size)
 //            Log.d("hehe", "hehe: ")
             binding.rec1.adapter = AdapterZakupy(list, this)
@@ -134,6 +133,31 @@ class Zakupy : Fragment(), AdapterZakupy.OnItemClickListener{
             Log.d("Hehe", jsonArray[position].itemPurchase.toString())
         }
         adapter.notifyItemChanged(position)
+        sortArray()
+    }
+
+    private fun sortArray(){
+        val path = context?.getExternalFilesDir(null)
+        val letDirectory = File(path, "LET")
+        val file = File(letDirectory, "Zakupy.json")
+        if(File(letDirectory,"Zakupy.json").exists()) {
+            val jsonArray: MutableList<ZakupyClass> = Gson().fromJson(
+                FileReader(File(letDirectory, "Zakupy.json")),
+                object : TypeToken<MutableList<ZakupyClass>>() {}.type
+            )
+            var count = 0
+            var jsonArrayTemp: ZakupyClass
+            while (count < jsonArray.size - 1) {
+                if (!jsonArray[count].itemPurchase && jsonArray[count + 1].itemPurchase) {
+                    jsonArrayTemp= jsonArray[count]
+                    jsonArray[count] = jsonArray[count + 1]
+                    jsonArray[count + 1]= jsonArrayTemp
+                }
+                count++
+            }
+            val jsonString = Gson().toJson(jsonArray)
+            file.writeText(jsonString)
+        }
     }
 
     private fun generateDummyList(size: Int): List<CardViewZakupy>{
@@ -144,11 +168,12 @@ class Zakupy : Fragment(), AdapterZakupy.OnItemClickListener{
         var count = 0
         if(File(letDirectory,"Zakupy.json").exists()) {
             val jsonArray : MutableList<ZakupyClass> = Gson().fromJson(FileReader(File(letDirectory,"Zakupy.json")), object : TypeToken<MutableList<ZakupyClass>>(){}.type)
+            count = 0
             while(count < jsonArray.size){
-                val item = CardViewZakupy(
-                    jsonArray[count].item.toString(),
-                    jsonArray[count].itemPurchase
-                )
+                    val item = CardViewZakupy(
+                        jsonArray[count].item.toString(),
+                        jsonArray[count].itemPurchase
+                    )
                 Log.d("Hehe", jsonArray[count].itemPurchase.toString())
                 list += item
                 count++
