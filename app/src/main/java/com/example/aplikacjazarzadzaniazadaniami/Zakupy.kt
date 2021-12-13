@@ -4,14 +4,13 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.service.autofill.OnClickAction
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.aplikacjazarzadzaniazadaniami.databinding.ZakupyBinding
 import com.google.gson.Gson
@@ -40,6 +39,27 @@ class Zakupy : Fragment(), AdapterZakupy.OnItemClickListener{
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.findItem(R.id.clear).isVisible = true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId){
+        R.id.clear -> {
+            clearAll()
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -53,6 +73,7 @@ class Zakupy : Fragment(), AdapterZakupy.OnItemClickListener{
             binding.rec1.adapter = AdapterZakupy(list, this)
             binding.rec1.layoutManager = LinearLayoutManager(this.context)
             binding.rec1.setHasFixedSize(true)
+
         }
 
         binding.fab1.setOnClickListener{
@@ -115,7 +136,6 @@ class Zakupy : Fragment(), AdapterZakupy.OnItemClickListener{
     }
 
     override fun onItemClick(position: Int) {
-        Toast.makeText(this.context, "Item $position clicked", Toast.LENGTH_SHORT).show()
         val path = context?.getExternalFilesDir(null)
         val letDirectory = File(path, "LET")
         val file = File(letDirectory, "Zakupy.json")
@@ -133,10 +153,10 @@ class Zakupy : Fragment(), AdapterZakupy.OnItemClickListener{
             Log.d("Hehe", jsonArray[position].itemPurchase.toString())
         }
         adapter.notifyItemChanged(position)
-        sortArray()
+        sortArray(position)
     }
 
-    private fun sortArray(){
+    private fun sortArray(position: Int){
         val path = context?.getExternalFilesDir(null)
         val letDirectory = File(path, "LET")
         val file = File(letDirectory, "Zakupy.json")
@@ -147,17 +167,21 @@ class Zakupy : Fragment(), AdapterZakupy.OnItemClickListener{
             )
             var count = 0
             var jsonArrayTemp: ZakupyClass
-            while (count < jsonArray.size - 1) {
-                if (!jsonArray[count].itemPurchase && jsonArray[count + 1].itemPurchase) {
-                    jsonArrayTemp= jsonArray[count]
-                    jsonArray[count] = jsonArray[count + 1]
-                    jsonArray[count + 1]= jsonArrayTemp
+            for(i in jsonArray){
+                while (count < jsonArray.size - 1) {
+                    if (!jsonArray[count].itemPurchase && jsonArray[count + 1].itemPurchase) {
+                        jsonArrayTemp= jsonArray[count]
+                        jsonArray[count] = jsonArray[count + 1]
+                        jsonArray[count + 1]= jsonArrayTemp
+                    }
+                    count++
                 }
-                count++
+                count = 0
             }
             val jsonString = Gson().toJson(jsonArray)
             file.writeText(jsonString)
         }
+        findNavController().navigate(R.id.action_zakupy_lista_to_zakupy_lista)
     }
 
     private fun generateDummyList(size: Int): List<CardViewZakupy>{
@@ -180,6 +204,27 @@ class Zakupy : Fragment(), AdapterZakupy.OnItemClickListener{
             }
         }
         return list
+    }
+
+    private fun clearAll(){
+        val path = context?.getExternalFilesDir(null)
+        val letDirectory = File(path, "LET")
+        val file = File(letDirectory, "Zakupy.json")
+        var count = 0
+        if(File(letDirectory,"Zakupy.json").exists()) {
+            val jsonArray: MutableList<ZakupyClass> = Gson().fromJson(
+                FileReader(File(letDirectory, "Zakupy.json")),
+                object : TypeToken<MutableList<ZakupyClass>>() {}.type)
+
+            while(count < jsonArray.size){
+                jsonArray[count].itemPurchase = false
+                count++
+            }
+
+            val jsonString = Gson().toJson(jsonArray)
+            file.writeText(jsonString)
+        }
+        findNavController().navigate(R.id.action_zakupy_lista_to_zakupy_lista)
     }
 
     override fun onDestroyView() {

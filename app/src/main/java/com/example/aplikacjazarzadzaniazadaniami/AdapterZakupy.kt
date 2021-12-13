@@ -34,6 +34,7 @@ class AdapterZakupy(private val List: List<CardViewZakupy>, private val listener
         val check1: CheckBox = itemView.findViewById(R.id.check1)
 
         init{
+            itemView.setOnClickListener(this)
             check1.setOnClickListener(this)
         }
 

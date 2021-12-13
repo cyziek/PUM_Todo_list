@@ -5,13 +5,19 @@
     tools:context="com.example.aplikacjazarzadzaniazadaniami.MainActivity">
     <item
         android:id="@+id/zadania"
-        android:orderInCategory="100"
+        android:orderInCategory="101"
         android:title="@string/zadania"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/zakupy"
-        android:orderInCategory="100"
+        android:orderInCategory="101"
         android:title="@string/zakupy"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/clear"
+        android:orderInCategory="101"
+        android:title="@string/clear"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_baseline_clear_all_24"/>
 </menu>
