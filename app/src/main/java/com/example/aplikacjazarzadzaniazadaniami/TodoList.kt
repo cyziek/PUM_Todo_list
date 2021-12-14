@@ -1,6 +1,9 @@
 package com.example.aplikacjazarzadzaniazadaniami
 
-import android.app.AlertDialog
+import android.app.*
+import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -39,7 +42,6 @@ class TodoList : Fragment(), Adapter.OnItemClickListener, Adapter.OnItemLongClic
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-
         _binding = ListTodoBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -55,37 +57,13 @@ class TodoList : Fragment(), Adapter.OnItemClickListener, Adapter.OnItemLongClic
 
 
             val list = generateDummyList(jsonArray.size)
-//            Log.d("hehe", "hehe: ")
             binding.rec.adapter = Adapter(list, this, this)
             binding.rec.layoutManager = LinearLayoutManager(this.context)
             binding.rec.setHasFixedSize(true)
         }
 
-//        val path = context?.getExternalFilesDir(null)
-//        val letDirectory = File(path, "LET")
-//        val file = File(letDirectory, "Records.txt")
-//        if(file.length() != 0L) {
-//            val inputStream: InputStream = File(letDirectory, "Records.txt").inputStream()
-//            val lineList = mutableListOf<String>()
-//            var count = 1
-//
-//            inputStream.bufferedReader().useLines { lines -> lines.forEach { lineList.add(it)} }
-//            lineList.forEach{
-//                val textView = TextView(this.context)
-//                val params= ConstraintLayout.LayoutParams(MATCH_PARENT,150)
-//                textView.id = R.id.TEXT_ID+count
-//                params.setMargins(0,200,0,0)
-//                textView.layoutParams = params
-//                //textView.setBackgroundDrawable(resources.getDrawable(R.drawable.edit_text_style))
-//                textView.text = it
-//
-//                // Add TextView to LinearLayout
-//                count++
-//                binding.todoId?.addView(textView)
-//            }
-//        }
-
         binding.fab.setOnClickListener {
+
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
     }

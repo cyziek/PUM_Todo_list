@@ -69,9 +69,8 @@ class TodoEdit : Fragment() {
                     calendar.set(Calendar.MINUTE, minute)
                     calendar.set(year,month,dayOfMonth)
                     binding.calendarView.date = calendar.timeInMillis
-                    Toast.makeText(this.context, "Hehe", Toast.LENGTH_SHORT).show()
                 },
-                calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false)
+                calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
                 timepicker.show()
             }
 
@@ -168,9 +167,7 @@ class TodoEdit : Fragment() {
     fun getPath(context: Context, uri: Uri): String? {
         val isKitKatorAbove = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
 
-        // DocumentProvider
         if (isKitKatorAbove && DocumentsContract.isDocumentUri(context, uri)) {
-            // ExternalStorageProvider
             if (isExternalStorageDocument(uri)) {
                 val docId = DocumentsContract.getDocumentId(uri)
                 val split = docId.split(":".toRegex()).toTypedArray()

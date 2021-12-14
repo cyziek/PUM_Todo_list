@@ -2,6 +2,7 @@ package com.example.aplikacjazarzadzaniazadaniami
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.*
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,9 +14,7 @@ import android.widget.Toast
 import android.view.MotionEvent
 import android.view.View.OnTouchListener
 import android.view.inputmethod.InputMethodManager
-import android.app.Activity
 import android.app.Activity.RESULT_OK
-import android.app.TimePickerDialog
 import android.content.ContentUris
 import android.content.Context
 import android.os.Build
@@ -34,8 +33,9 @@ import android.provider.DocumentsContract
 import android.util.Log
 import android.provider.MediaStore
 import android.provider.MediaStore.Images
-import android.widget.TimePicker
-import java.text.SimpleDateFormat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat.getSystemService
 
 class AddToList : Fragment() {
 
@@ -48,11 +48,16 @@ class AddToList : Fragment() {
     private var imageUri: Uri? = null
     private var filePath = ""
 
+    private var notificationManager: NotificationManagerCompat ?= null
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
         _binding = ListAddBinding.inflate(inflater, container, false)
+
+        notificationManager = this.context?.let { NotificationManagerCompat.from(it) }
+
         return binding.root
     }
 
@@ -84,11 +89,25 @@ class AddToList : Fragment() {
                 binding.dateAdd.date = calendar.timeInMillis
                 Toast.makeText(this.context, "Hehe", Toast.LENGTH_SHORT).show()
             },
-            calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false)
+            calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
             timepicker.show()
         }
 
         binding.add.setOnClickListener{
+            var pozycja = 1
+            var chk = FALSE
+            val path = context?.getExternalFilesDir(null)
+            val letDirectory = File(path, "LET")
+            if(File(letDirectory,"Records.json").exists()) {
+                val jsonArray: MutableList<Zadania> = Gson().fromJson(
+                    FileReader(File(letDirectory, "Records.json")),
+                    object : TypeToken<MutableList<Zadania>>() {}.type
+                )
+                pozycja = jsonArray.size+1
+            }
+
+            Log.d("Hehe", pozycja.toString())
+
             if(binding.descAdd.text.toString().trim().equals("") || binding.titleAdd.text.toString().trim().equals("")){
                 Toast.makeText(context, "Brak danych!", Toast.LENGTH_SHORT).show()
             }else{
@@ -105,6 +124,7 @@ class AddToList : Fragment() {
                 //switch
                 if (binding.notificationAdd.isChecked) {
                     zadanie.notif = TRUE
+                    chk = TRUE
                 } else {
                     zadanie.notif = FALSE
                 }
@@ -144,7 +164,7 @@ class AddToList : Fragment() {
 
 //                Log.d("String",path.toString())
 
-
+                createNotificationChannel(view, binding.titleAdd.text.toString(), binding.descAdd.text.toString(), pozycja, chk)
                 findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
             }
         }
@@ -191,9 +211,7 @@ class AddToList : Fragment() {
     fun getPath(context: Context, uri: Uri): String? {
         val isKitKatorAbove = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
 
-        // DocumentProvider
         if (isKitKatorAbove && DocumentsContract.isDocumentUri(context, uri)) {
-            // ExternalStorageProvider
             if (isExternalStorageDocument(uri)) {
                 val docId = DocumentsContract.getDocumentId(uri)
                 val split = docId.split(":".toRegex()).toTypedArray()
@@ -263,6 +281,32 @@ class AddToList : Fragment() {
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
         val path = Images.Media.insertImage(inContext.contentResolver, inImage, System.currentTimeMillis().toString(), null)
         return Uri.parse(path)
+    }
+
+    fun createNotificationChannel(view: View, title: String, description: String, position: Int, notif: Boolean){
+        if(notif) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val importance = NotificationManager.IMPORTANCE_HIGH
+                val channel = "channel_$position"
+                val channel1 = NotificationChannel(channel, "Channel $position", importance)
+                channel1.description = "Channel $position"
+
+                val notificationManager: NotificationManager? =
+                    context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                notificationManager?.createNotificationChannel(channel1)
+            }
+
+            val notification: Notification =
+                NotificationCompat.Builder(this.context as Context, "channel_1")
+                    .setSmallIcon(R.drawable.ic_baseline_clear_24)
+                    .setContentTitle(title)
+                    .setContentText(description)
+                    .setVibrate(longArrayOf(1L, 2L, 3L))
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .build()
+
+            notificationManager?.notify(position, notification)
+        }
     }
 
     override fun onDestroyView() {

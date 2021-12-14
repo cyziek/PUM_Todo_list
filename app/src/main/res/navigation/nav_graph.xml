@@ -52,7 +52,7 @@
             android:id="@+id/action_zakupy_lista_to_FirstFragment"
             app:destination="@id/zadania" />
         <action
-            android:id="@+id/action_zakupy_lista_to_zakupy_lista"
+            android:id="@+id/action_zakupy_lista_to_self"
             app:destination="@id/zakupy" />
     </fragment>
     <fragment

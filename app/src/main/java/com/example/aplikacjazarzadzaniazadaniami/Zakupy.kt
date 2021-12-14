@@ -16,13 +16,13 @@ import com.google.gson.reflect.TypeToken
 import java.io.File
 import java.io.FileReader
 
-class Zakupy : Fragment(), AdapterZakupy.OnItemClickListener{
+class Zakupy : Fragment(), AdapterZakupy.OnItemClickListener, AdapterZakupy.OnItemLongClickListener{
 
     private var _binding: ZakupyBinding? = null
     private val binding get() = _binding!!
 
     private val list = generateDummyList(10)
-    private val adapter = AdapterZakupy(list, this)
+    private val adapter = AdapterZakupy(list, this, this)
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -64,7 +64,7 @@ class Zakupy : Fragment(), AdapterZakupy.OnItemClickListener{
 
             val list = generateDummyList(jsonArray.size)
 //            Log.d("hehe", "hehe: ")
-            binding.rec1.adapter = AdapterZakupy(list, this)
+            binding.rec1.adapter = AdapterZakupy(list, this, this)
             binding.rec1.layoutManager = LinearLayoutManager(this.context)
             binding.rec1.setHasFixedSize(true)
 
@@ -114,7 +114,7 @@ class Zakupy : Fragment(), AdapterZakupy.OnItemClickListener{
 
 
                         val list = generateDummyList(jsonArray.size)
-                        binding.rec1.adapter = AdapterZakupy(list, this)
+                        binding.rec1.adapter = AdapterZakupy(list, this, this)
                         binding.rec1.layoutManager = LinearLayoutManager(this.context)
                         binding.rec1.setHasFixedSize(true)
                     }
@@ -150,6 +150,38 @@ class Zakupy : Fragment(), AdapterZakupy.OnItemClickListener{
         sortArray(position)
     }
 
+    override fun onItemLongClick(position: Int){
+        val builder = AlertDialog.Builder(this.context,R.style.AlertDialogCustom)
+            .create()
+        val view = layoutInflater.inflate(R.layout.delete_dialog,null)
+        val button = view.findViewById<Button>(R.id.dialogDelete_dismiss)
+        val buttonacc = view.findViewById<Button>(R.id.dialogDelete_accept)
+        builder.setView(view)
+
+        button.setOnClickListener {
+            builder.dismiss()
+        }
+        buttonacc.setOnClickListener{
+            val path = context?.getExternalFilesDir(null)
+            val letDirectory = File(path, "LET")
+            val file = File(letDirectory, "Zakupy.json")
+            if(File(letDirectory,"Zakupy.json").exists()) {
+                val jsonArray: MutableList<ZakupyClass> = Gson().fromJson(
+                    FileReader(File(letDirectory, "Zakupy.json")),
+                    object : TypeToken<MutableList<ZakupyClass>>() {}.type
+                )
+                jsonArray.removeAt(position)
+                val jsonString = Gson().toJson(jsonArray)
+                file.writeText(jsonString)
+            }
+            findNavController().navigate(R.id.action_zakupy_lista_to_self)
+            builder.dismiss()
+        }
+
+        builder.setCanceledOnTouchOutside(false)
+        builder.show()
+    }
+
     private fun sortArray(position: Int){
         val path = context?.getExternalFilesDir(null)
         val letDirectory = File(path, "LET")
@@ -175,7 +207,7 @@ class Zakupy : Fragment(), AdapterZakupy.OnItemClickListener{
             val jsonString = Gson().toJson(jsonArray)
             file.writeText(jsonString)
         }
-        findNavController().navigate(R.id.action_zakupy_lista_to_zakupy_lista)
+        findNavController().navigate(R.id.action_zakupy_lista_to_self)
     }
 
     private fun generateDummyList(size: Int): List<CardViewZakupy>{
@@ -218,7 +250,7 @@ class Zakupy : Fragment(), AdapterZakupy.OnItemClickListener{
             val jsonString = Gson().toJson(jsonArray)
             file.writeText(jsonString)
         }
-        findNavController().navigate(R.id.action_zakupy_lista_to_zakupy_lista)
+        findNavController().navigate(R.id.action_zakupy_lista_to_self)
     }
 
     override fun onDestroyView() {

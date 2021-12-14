@@ -13,6 +13,10 @@ import android.util.Log
 import android.view.*
 import androidx.navigation.fragment.findNavController
 import java.util.*
+import android.text.method.ScrollingMovementMethod
+
+
+
 
 class TaskViewer : Fragment() {
 
@@ -80,13 +84,15 @@ class TaskViewer : Fragment() {
                 }
             }
         }
+
+        binding.desc.movementMethod = ScrollingMovementMethod()
+
         return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -102,10 +108,6 @@ class TaskViewer : Fragment() {
         else -> {
             super.onOptionsItemSelected(item)
         }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onDestroyView() {
