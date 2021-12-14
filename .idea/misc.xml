@@ -8,7 +8,12 @@
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/edit_text_style.xml" value="0.38177083333333334" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.37037037037037035" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.22083333333333333" />
+        <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/ic_baseline_android_24.xml" value="0.25092592592592594" />
+        <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/ic_baseline_cancel_24.xml" value="0.25092592592592594" />
+        <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.25092592592592594" />
+        <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/ic_baseline_clear_24.xml" value="0.25092592592592594" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/ic_baseline_image_24.xml" value="0.24722222222222223" />
+        <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.25092592592592594" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/ic_baseline_photo_camera_24.xml" value="0.24722222222222223" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/ic_baseline_radio_button_checked_24.xml" value="0.10462962962962963" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/drawable/ic_baseline_radio_button_unchecked_24.xml" value="0.38177083333333334" />
@@ -26,7 +31,9 @@
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/fragment_second.xml" value="0.1802536231884058" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/list_add.xml" value="0.5" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/list_todo.xml" value="0.21730175077239958" />
+        <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/task_edit.xml" value="0.35144927536231885" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/task_viewer.xml" value="0.33" />
+        <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/todo_edit.xml" value="0.35144927536231885" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/layout/zakupy.xml" value="0.2269021739130435" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/menu/menu_main.xml" value="0.36" />
         <entry key="..\:/Programiki/PUM_Todo_list/app/src/main/res/xml/provider_file.xml" value="0.34556159420289856" />

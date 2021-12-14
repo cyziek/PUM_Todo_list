@@ -15,6 +15,7 @@ import android.view.View.OnTouchListener
 import android.view.inputmethod.InputMethodManager
 import android.app.Activity
 import android.app.Activity.RESULT_OK
+import android.app.TimePickerDialog
 import android.content.ContentUris
 import android.content.Context
 import android.os.Build
@@ -33,6 +34,8 @@ import android.provider.DocumentsContract
 import android.util.Log
 import android.provider.MediaStore
 import android.provider.MediaStore.Images
+import android.widget.TimePicker
+import java.text.SimpleDateFormat
 
 class AddToList : Fragment() {
 
@@ -74,8 +77,15 @@ class AddToList : Fragment() {
         val calendar = Calendar.getInstance()
 
         binding.dateAdd.setOnDateChangeListener{view, year, month, dayOfMonth ->
-            calendar.set(year,month,dayOfMonth)
-            binding.dateAdd.date = calendar.timeInMillis
+            val timepicker = TimePickerDialog(this.context, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                calendar.set(Calendar.MINUTE, minute)
+                calendar.set(year,month,dayOfMonth)
+                binding.dateAdd.date = calendar.timeInMillis
+                Toast.makeText(this.context, "Hehe", Toast.LENGTH_SHORT).show()
+            },
+            calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false)
+            timepicker.show()
         }
 
         binding.add.setOnClickListener{

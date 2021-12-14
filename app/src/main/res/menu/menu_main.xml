@@ -14,10 +14,26 @@
         android:orderInCategory="101"
         android:title="@string/zakupy"
         app:showAsAction="never" />
+
     <item
         android:id="@+id/clear"
         android:orderInCategory="101"
         android:title="@string/clear"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_baseline_clear_all_24"/>
+
+    <item
+        android:id="@+id/accbutton"
+        android:orderInCategory="101"
+        android:title="@string/accbuton"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_baseline_check_24" />
+
+    <item
+        android:id="@+id/edit"
+        android:orderInCategory="101"
+        android:title="@string/edit"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_baseline_edit_24" />
+
 </menu>

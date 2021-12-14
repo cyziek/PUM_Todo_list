@@ -41,6 +41,8 @@ class MainActivity : AppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         menu.findItem(R.id.clear).isVisible = false
+        menu.findItem(R.id.accbutton).isVisible = false
+        menu.findItem(R.id.edit).isVisible = false
         return true
     }
 

@@ -133,7 +133,7 @@ class TodoList : Fragment(), Adapter.OnItemClickListener, Adapter.OnItemLongClic
         val path = context?.getExternalFilesDir(null)
         val letDirectory = File(path, "LET")
         var count = 0
-        val format = SimpleDateFormat("dd/MM/yyy")
+        val format = SimpleDateFormat("dd/MM/yyy HH:mm")
         if(File(letDirectory,"Records.json").exists()) {
             val jsonArray : MutableList<Zadania> = Gson().fromJson(FileReader(File(letDirectory,"Records.json")), object : TypeToken<MutableList<Zadania>>(){}.type)
             while(count < jsonArray.size){

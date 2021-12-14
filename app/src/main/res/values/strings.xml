@@ -18,4 +18,6 @@
     <string name="wysoki">Wysoki</string>
     <string name="opis">Opis</string>
     <string name="clear">Clear</string>
+    <string name="accbuton">Akceptuj</string>
+    <string name="edit">Edytuj</string>
 </resources>

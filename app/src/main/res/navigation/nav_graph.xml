@@ -63,5 +63,20 @@
         <action
             android:id="@+id/action_task_viewer_to_first_fragment"
             app:destination="@id/zadania" />
+        <action
+            android:id="@+id/action_task_viewer_to_todoEdit"
+            app:destination="@id/todoEdit" />
     </fragment>
+    <fragment
+        android:id="@+id/todoEdit"
+        android:name="com.example.aplikacjazarzadzaniazadaniami.TodoEdit"
+        android:label="TodoEdit" >
+        <action
+            android:id="@+id/action_todoEdit_to_task_viewer"
+            app:destination="@id/taskviewer" />
+        <action
+            android:id="@+id/action_todoEdit_to_FirstFragment"
+            app:destination="@id/zadania" />
+    </fragment>
+
 </navigation>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll_edit"
+    android:layout_height="match_parent" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:context=".TodoEdit">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/test"
+            android:layout_width="383dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="16dp"
+            android:text="Zadanie"
+            android:textSize="18dp"
+            android:inputType="text"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.571"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:text="@string/powiadomienia"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.059"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgedit"
+            android:layout_width="109dp"
+            android:layout_height="74dp"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/img_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.052"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <EditText
+            android:id="@+id/desc"
+            android:layout_width="376dp"
+            android:layout_height="145dp"
+            android:layout_marginTop="12dp"
+            android:ems="10"
+            android:gravity="left"
+            android:inputType="textMultiLine"
+            android:overScrollMode="always"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.485"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/calendarView" />
+
+        <RadioGroup
+            android:id="@+id/radiogroup_add1"
+            android:layout_width="350dp"
+            android:layout_height="58dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/desc">
+
+            <RadioButton
+                android:id="@+id/radio_add1"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:checked="true"
+                android:drawableTop="@drawable/rd_button"
+                android:drawablePadding="-20dp"
+                android:gravity="center"
+                android:text="@string/najnizszy" />
+
+            <RadioButton
+                android:id="@+id/radio_add2"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:drawableTop="@drawable/rd_button"
+                android:drawablePadding="-20dp"
+                android:gravity="center"
+                android:text="@string/niski" />
+
+            <RadioButton
+                android:id="@+id/radio_add3"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:drawableTop="@drawable/rd_button"
+                android:drawablePadding="-20dp"
+                android:gravity="center"
+                android:text="@string/sredni" />
+
+            <RadioButton
+                android:id="@+id/radio_add4"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:drawableTop="@drawable/rd_button"
+                android:drawablePadding="-20dp"
+                android:gravity="center"
+                android:text="@string/wysoki" />
+
+            <RadioButton
+                android:id="@+id/radio_add5"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:drawableTop="@drawable/rd_button"
+                android:drawablePadding="-20dp"
+                android:gravity="center"
+                android:text="@string/najwyzszy" />
+        </RadioGroup>
+
+        <CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="355dp"
+            android:layout_height="311dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgedit" />
+
+        <ImageView
+            android:id="@+id/imageViewEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="120dp"
+            android:src="@drawable/ic_baseline_image_24"
+            app:layout_constraintStart_toEndOf="@+id/cameraEdit"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/cameraEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="120dp"
+            android:src="@drawable/ic_baseline_photo_camera_24"
+            app:layout_constraintStart_toEndOf="@+id/imgedit"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/delimg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="120dp"
+            android:src="@drawable/ic_baseline_clear_24"
+            app:layout_constraintStart_toEndOf="@+id/imageViewEdit"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

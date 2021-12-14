@@ -2,11 +2,9 @@ package com.example.aplikacjazarzadzaniazadaniami
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.service.autofill.OnClickAction
 import android.util.Log
 import android.view.*
 import android.widget.Button
-import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -17,10 +15,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File
 import java.io.FileReader
-import org.json.JSONObject
-import java.lang.Boolean.FALSE
-import java.lang.Boolean.TRUE
-
 
 class Zakupy : Fragment(), AdapterZakupy.OnItemClickListener{
 
