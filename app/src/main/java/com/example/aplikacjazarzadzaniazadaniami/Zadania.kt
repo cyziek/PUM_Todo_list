@@ -4,6 +4,7 @@ import java.util.*
 
 class Zadania {
 
+    var id: Int = 0
     var notif: Boolean? = null
     var title: String? = null
     var date: Date? = null

@@ -26,11 +26,11 @@ class Adapter(private val List: List<CardView>, private val listener: OnItemClic
         holder.textview4.text = currentItem.text4
 
         when (currentItem.text4) {
-            "Priorytet: Najwyższy" -> holder.textview4.setTextColor(Color.parseColor("#FF0000"))
-            "Priorytet: Wysoki" -> holder.textview4.setTextColor(Color.parseColor("#FFA500"))
-            "Priorytet: Średni" -> holder.textview4.setTextColor(Color.parseColor("#c2b12f"))
-            "Priorytet: Niski" -> holder.textview4.setTextColor(Color.parseColor("#0000FF"))
-            "Priorytet: Najniższy" -> holder.textview4.setTextColor(Color.parseColor("#147306"))
+            "Najwyższy" -> holder.textview4.setTextColor(Color.parseColor("#FF0000"))
+            "Wysoki" -> holder.textview4.setTextColor(Color.parseColor("#FFA500"))
+            "Średni" -> holder.textview4.setTextColor(Color.parseColor("#c2b12f"))
+            "Niski" -> holder.textview4.setTextColor(Color.parseColor("#0000FF"))
+            "Najniższy" -> holder.textview4.setTextColor(Color.parseColor("#147306"))
         }
     }
 

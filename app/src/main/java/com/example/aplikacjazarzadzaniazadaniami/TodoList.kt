@@ -1,9 +1,6 @@
 package com.example.aplikacjazarzadzaniazadaniami
 
 import android.app.*
-import android.content.Context
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -126,7 +123,7 @@ class TodoList : Fragment(), Adapter.OnItemClickListener, Adapter.OnItemLongClic
                     jsonArray[count].title.toString(),
                     output,
                     "Termin: " + format.format(jsonArray[count].date),
-                    "Priorytet: " + jsonArray[count].prior.toString()
+                    jsonArray[count].prior.toString()
                 )
                 list += item
                 count++

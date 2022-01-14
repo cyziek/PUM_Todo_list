@@ -3,6 +3,7 @@ package com.example.aplikacjazarzadzaniazadaniami
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.*
+import android.app.Activity.ALARM_SERVICE
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -36,6 +37,7 @@ import android.provider.MediaStore.Images
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat.getSystemService
+import java.lang.Integer.parseInt
 
 class AddToList : Fragment() {
 
@@ -47,6 +49,36 @@ class AddToList : Fragment() {
     private val camera = 101
     private var imageUri: Uri? = null
     private var filePath = ""
+
+    companion object {
+        private var id: Int ?= null
+        private var title: String ?= null
+        private var desc: String ?= null
+
+        fun setId(id: Int?) {
+            this.id = id
+        }
+
+        fun getId(): Int? {
+            return id
+        }
+
+        fun setTitle(title: String?) {
+            this.title = title
+        }
+
+        fun getTitle(): String? {
+            return title
+        }
+
+        fun setDesc(desc: String?) {
+            this.desc = desc
+        }
+
+        fun getDesc(): String? {
+            return desc
+        }
+    }
 
     private var notificationManager: NotificationManagerCompat ?= null
 
@@ -85,6 +117,7 @@ class AddToList : Fragment() {
             val timepicker = TimePickerDialog(this.context, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 calendar.set(Calendar.MINUTE, minute)
+                calendar.set(Calendar.SECOND, 0)
                 calendar.set(year,month,dayOfMonth)
                 binding.dateAdd.date = calendar.timeInMillis
                 Toast.makeText(this.context, "Hehe", Toast.LENGTH_SHORT).show()
@@ -95,6 +128,7 @@ class AddToList : Fragment() {
 
         binding.add.setOnClickListener{
             var pozycja = 1
+            var id = 1
             var chk = FALSE
             val path = context?.getExternalFilesDir(null)
             val letDirectory = File(path, "LET")
@@ -104,6 +138,7 @@ class AddToList : Fragment() {
                     object : TypeToken<MutableList<Zadania>>() {}.type
                 )
                 pozycja = jsonArray.size+1
+                id = (jsonArray[jsonArray.size-1].id + 1)
             }
 
             Log.d("Hehe", pozycja.toString())
@@ -120,6 +155,8 @@ class AddToList : Fragment() {
                 val file = File(letDirectory, "Records.json")
 
                 val zadanie = Zadania()
+
+                zadanie.id = id
 
                 //switch
                 if (binding.notificationAdd.isChecked) {
@@ -163,8 +200,26 @@ class AddToList : Fragment() {
                 }
 
 //                Log.d("String",path.toString())
+                if(binding.notificationAdd.isChecked) {
+                    createNotificationChannel(id)
+                    Toast.makeText(this.context, "Powiadomienie ustawione!", Toast.LENGTH_SHORT)
+                        .show()
+                    val intent = Intent(this.context, ReminderBroadcast::class.java)
+                    setId(id)
+                    setTitle(binding.titleAdd.text.toString())
+                    setDesc(binding.descAdd.text.toString())
+                    val pendingIntent: PendingIntent =
+                        PendingIntent.getBroadcast(this.context, 0, intent, 0)
 
-                createNotificationChannel(view, binding.titleAdd.text.toString(), binding.descAdd.text.toString(), pozycja, chk)
+                    val alarmManager: AlarmManager =
+                        context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+                    val czas = binding.dateAdd.date
+                    val czas1 = 1000 * 0
+
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, czas + czas1, pendingIntent)
+                }
+
                 findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
             }
         }
@@ -283,29 +338,16 @@ class AddToList : Fragment() {
         return Uri.parse(path)
     }
 
-    fun createNotificationChannel(view: View, title: String, description: String, position: Int, notif: Boolean){
-        if(notif) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val importance = NotificationManager.IMPORTANCE_HIGH
-                val channel = "channel_$position"
-                val channel1 = NotificationChannel(channel, "Channel $position", importance)
-                channel1.description = "Channel $position"
+    fun createNotificationChannel(id: Int){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = "channel_$id"
+            val channel1 = NotificationChannel(channel, "Channel $id", importance)
+            channel1.description = "Channel $id"
 
-                val notificationManager: NotificationManager? =
-                    context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                notificationManager?.createNotificationChannel(channel1)
-            }
-
-            val notification: Notification =
-                NotificationCompat.Builder(this.context as Context, "channel_1")
-                    .setSmallIcon(R.drawable.ic_baseline_clear_24)
-                    .setContentTitle(title)
-                    .setContentText(description)
-                    .setVibrate(longArrayOf(1L, 2L, 3L))
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .build()
-
-            notificationManager?.notify(position, notification)
+            val notificationManager: NotificationManager? =
+                context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager?.createNotificationChannel(channel1)
         }
     }
 
