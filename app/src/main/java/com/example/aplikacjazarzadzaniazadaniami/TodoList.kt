@@ -1,6 +1,9 @@
 package com.example.aplikacjazarzadzaniazadaniami
 
 import android.app.*
+import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -90,6 +93,24 @@ class TodoList : Fragment(), Adapter.OnItemClickListener, Adapter.OnItemLongClic
                     FileReader(File(letDirectory, "Records.json")),
                     object : TypeToken<MutableList<Zadania>>() {}.type
                 )
+
+                val notificationManager: NotificationManager? =
+                    context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+                val id = jsonArray[position].id
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    notificationManager?.deleteNotificationChannel("channel_$id")
+                    val intent = Intent(this.context, ReminderBroadcast::class.java)
+                    val pendingIntent: PendingIntent =
+                        PendingIntent.getBroadcast(this.context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+                    val alarmManager: AlarmManager =
+                        context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+                    alarmManager!!.cancel(pendingIntent)
+                }
+
                 jsonArray.removeAt(position)
                 val jsonString = Gson().toJson(jsonArray)
                 file.writeText(jsonString)

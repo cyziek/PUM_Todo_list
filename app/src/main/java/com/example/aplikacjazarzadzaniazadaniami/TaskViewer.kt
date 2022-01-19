@@ -12,11 +12,7 @@ import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.*
 import androidx.navigation.fragment.findNavController
-import java.util.*
 import android.text.method.ScrollingMovementMethod
-
-
-
 
 class TaskViewer : Fragment() {
 

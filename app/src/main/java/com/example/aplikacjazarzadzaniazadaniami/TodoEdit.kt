@@ -1,8 +1,7 @@
 package com.example.aplikacjazarzadzaniazadaniami
 
 import android.Manifest
-import android.app.Activity
-import android.app.TimePickerDialog
+import android.app.*
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
@@ -63,11 +62,12 @@ class TodoEdit : Fragment() {
 
             val calendar = Calendar.getInstance()
 
-            binding.calendarView.setOnDateChangeListener{view, year, month, dayOfMonth ->
-                val timepicker = TimePickerDialog(this.context, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+            binding.calendarView.setOnDateChangeListener{_, year, month, dayOfMonth ->
+                val timepicker = TimePickerDialog(this.context, { _, hourOfDay, minute ->
                     calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                     calendar.set(Calendar.MINUTE, minute)
                     calendar.set(year,month,dayOfMonth)
+                    calendar.set(Calendar.SECOND, 0)
                     binding.calendarView.date = calendar.timeInMillis
                 },
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
@@ -139,7 +139,7 @@ class TodoEdit : Fragment() {
                 Toast.makeText(context, "Brak danych!", Toast.LENGTH_SHORT).show()
             }else {
                 editTask()
-                Toast.makeText(context, "Dodano zadanie!!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Edytowano zadanie!!", Toast.LENGTH_SHORT).show()
             }
             true
         }
@@ -250,14 +250,59 @@ class TodoEdit : Fragment() {
                 FileReader(File(letDirectory, "Records.json")),
                 object : TypeToken<MutableList<Zadania>>() {}.type
             )
+
+            val notificationManager: NotificationManager? =
+                context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
             jsonArray[pozycja!!].date = Date(binding.calendarView.date)
             jsonArray[pozycja].desc = binding.desc.text.toString()
             jsonArray[pozycja].imgpath = filePath
 
+            val idChannel = jsonArray[pozycja].id
+
             if (binding.switch1.isChecked) {
                 jsonArray[pozycja].notif = TRUE
+                val alarmManager: AlarmManager =
+                    context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    notificationManager?.deleteNotificationChannel("channel_$idChannel")
+                    val intent = Intent(this.context, ReminderBroadcast::class.java)
+
+                    val pendingIntent: PendingIntent =
+                        PendingIntent.getBroadcast(this.context, idChannel, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                    alarmManager!!.cancel(pendingIntent)
+                }
+
+                createNotificationChannel(idChannel)
+                Toast.makeText(this.context, "Powiadomienie ustawione!", Toast.LENGTH_SHORT)
+                    .show()
+                val intent = Intent(this.context, ReminderBroadcast::class.java)
+                intent.putExtra("VALUE_ID", idChannel)
+                Log.d("ID edit", idChannel.toString())
+                intent.putExtra("VALUE_TITLE", binding.test.text.toString())
+                intent.putExtra("VALUE_DESC", binding.desc.text.toString())
+                val pendingIntent: PendingIntent =
+                    PendingIntent.getBroadcast(this.context, idChannel, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+//                val czas = binding.calendarView.date
+                val czas = System.currentTimeMillis()
+                val czas1 = 1000 * 5
+
+                alarmManager.set(AlarmManager.RTC_WAKEUP, czas + czas1, pendingIntent)
             } else {
                 jsonArray[pozycja].notif = FALSE
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    notificationManager?.deleteNotificationChannel("channel_$idChannel")
+                    val intent = Intent(this.context, ReminderBroadcast::class.java)
+                    val pendingIntent: PendingIntent =
+                        PendingIntent.getBroadcast(this.context, idChannel, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+                    val alarmManager: AlarmManager =
+                        context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+                    alarmManager!!.cancel(pendingIntent)
+                }
             }
 
             when {
@@ -274,6 +319,19 @@ class TodoEdit : Fragment() {
             file.writeText(jsonString)
         }
         findNavController().navigate(R.id.action_todoEdit_to_FirstFragment)
+    }
+
+    fun createNotificationChannel(id: Int){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = "channel_$id"
+            val channel1 = NotificationChannel(channel, "Channel $id", importance)
+            channel1.description = "Channel $id"
+
+            val notificationManager: NotificationManager? =
+                context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager?.createNotificationChannel(channel1)
+        }
     }
 
     override fun onDestroyView() {
