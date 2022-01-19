@@ -176,7 +176,8 @@ class AddToList : Fragment() {
                     intent.putExtra("VALUE_ID", id)
                     intent.putExtra("VALUE_TITLE", binding.titleAdd.text.toString())
                     intent.putExtra("VALUE_DESC", binding.descAdd.text.toString())
-
+                    val pendingIntent: PendingIntent =
+                        PendingIntent.getBroadcast(this.context, id, intent, 0)
                     val alarmManager: AlarmManager =
                         context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -187,60 +188,32 @@ class AddToList : Fragment() {
                     val czas1 = 1000 * 0
 
                     when {
-                        binding.radioAdd1.isChecked -> {
-                            val pendingIntent: PendingIntent =
-                                PendingIntent.getBroadcast(this.context, id, intent, 0)
-                            alarmManager.set(AlarmManager.RTC_WAKEUP, (czas + czas1), pendingIntent)
-                        }
+                        binding.radioAdd1.isChecked -> alarmManager.set(AlarmManager.RTC_WAKEUP, (czas + czas1), pendingIntent)
                         binding.radioAdd2.isChecked -> {
                             if ((czas + czas1) - System.currentTimeMillis() < 600000) {
-                                val pendingIntent: PendingIntent =
-                                    PendingIntent.getBroadcast(this.context, id, intent, 0)
-                                alarmManager.set(AlarmManager.RTC_WAKEUP, (czas + czas1), pendingIntent)
                                 alarmManager.set(AlarmManager.RTC_WAKEUP, (System.currentTimeMillis()), pendingIntent)
                             } else {
-                                val pendingIntent: PendingIntent =
-                                    PendingIntent.getBroadcast(this.context, id, intent, 0)
-                                alarmManager.set(AlarmManager.RTC_WAKEUP, (czas + czas1), pendingIntent)
                                 alarmManager.set(AlarmManager.RTC_WAKEUP, ((czas + czas1) - 600000), pendingIntent)
                             }
                         }
                         binding.radioAdd3.isChecked -> {
                             if ((czas + czas1) - System.currentTimeMillis() < 1200000) {
-                                val pendingIntent: PendingIntent =
-                                    PendingIntent.getBroadcast(this.context, id, intent, 0)
-                                alarmManager.set(AlarmManager.RTC_WAKEUP, (czas + czas1), pendingIntent)
                                 alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent)
                             } else {
-                                val pendingIntent: PendingIntent =
-                                    PendingIntent.getBroadcast(this.context, id, intent, 0)
-                                alarmManager.set(AlarmManager.RTC_WAKEUP, (czas + czas1), pendingIntent)
                                 alarmManager.set(AlarmManager.RTC_WAKEUP, ((czas + czas1) - 1200000), pendingIntent)
                             }
                         }
                         binding.radioAdd4.isChecked ->{
                             if ((czas + czas1) - System.currentTimeMillis() < 2400000) {
-                                val pendingIntent: PendingIntent =
-                                    PendingIntent.getBroadcast(this.context, id, intent, 0)
-                                alarmManager.set(AlarmManager.RTC_WAKEUP, (czas + czas1), pendingIntent)
                                 alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent)
                             } else {
-                                val pendingIntent: PendingIntent =
-                                    PendingIntent.getBroadcast(this.context, id, intent, 0)
-                                alarmManager.set(AlarmManager.RTC_WAKEUP, (czas + czas1), pendingIntent)
                                 alarmManager.set(AlarmManager.RTC_WAKEUP, ((czas + czas1) - 2400000), pendingIntent)
                             }
                         }
                         binding.radioAdd5.isChecked ->{
                             if ((czas + czas1) - System.currentTimeMillis() < 3600000) {
-                                val pendingIntent: PendingIntent =
-                                    PendingIntent.getBroadcast(this.context, id, intent, 0)
-                                alarmManager.set(AlarmManager.RTC_WAKEUP, (czas + czas1), pendingIntent)
                                 alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent)
                             } else {
-                                val pendingIntent: PendingIntent =
-                                    PendingIntent.getBroadcast(this.context, id, intent, 0)
-                                alarmManager.set(AlarmManager.RTC_WAKEUP, (czas + czas1), pendingIntent)
                                 alarmManager.set(AlarmManager.RTC_WAKEUP, ((czas + czas1) - 3600000), pendingIntent)
                             }
                         }

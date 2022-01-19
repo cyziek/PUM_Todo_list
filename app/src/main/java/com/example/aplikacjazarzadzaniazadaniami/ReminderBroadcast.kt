@@ -30,8 +30,8 @@ class ReminderBroadcast : BroadcastReceiver() {
 
             val notification: Notification =
                 NotificationCompat.Builder(context as Context, "channel_$id")
-                    .setSmallIcon(R.drawable.logo)
-                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.logo))
+                    .setSmallIcon(R.drawable.ikonapow)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ikonapow))
                     .setContentTitle(title)
                     .setContentText(desc)
                     .setVibrate(longArrayOf(1L, 2L, 3L))

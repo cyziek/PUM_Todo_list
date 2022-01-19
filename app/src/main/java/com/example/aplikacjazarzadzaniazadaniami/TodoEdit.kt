@@ -285,11 +285,43 @@ class TodoEdit : Fragment() {
                 val pendingIntent: PendingIntent =
                     PendingIntent.getBroadcast(this.context, idChannel, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-//                val czas = binding.calendarView.date
-                val czas = System.currentTimeMillis()
-                val czas1 = 1000 * 5
+                var czas = binding.calendarView.date
+                if(czas < System.currentTimeMillis()){
+                    czas = System.currentTimeMillis()
+                }
+                val czas1 = 1000 * 0
 
-                alarmManager.set(AlarmManager.RTC_WAKEUP, czas + czas1, pendingIntent)
+                when {
+                    binding.radioAdd1.isChecked -> alarmManager.set(AlarmManager.RTC_WAKEUP, (czas + czas1), pendingIntent)
+                    binding.radioAdd2.isChecked -> {
+                        if ((czas + czas1) - System.currentTimeMillis() < 600000) {
+                            alarmManager.set(AlarmManager.RTC_WAKEUP, (System.currentTimeMillis()), pendingIntent)
+                        } else {
+                            alarmManager.set(AlarmManager.RTC_WAKEUP, ((czas + czas1) - 600000), pendingIntent)
+                        }
+                    }
+                    binding.radioAdd3.isChecked -> {
+                        if ((czas + czas1) - System.currentTimeMillis() < 1200000) {
+                            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent)
+                        } else {
+                            alarmManager.set(AlarmManager.RTC_WAKEUP, ((czas + czas1) - 1200000), pendingIntent)
+                        }
+                    }
+                    binding.radioAdd4.isChecked ->{
+                        if ((czas + czas1) - System.currentTimeMillis() < 2400000) {
+                            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent)
+                        } else {
+                            alarmManager.set(AlarmManager.RTC_WAKEUP, ((czas + czas1) - 2400000), pendingIntent)
+                        }
+                    }
+                    binding.radioAdd5.isChecked ->{
+                        if ((czas + czas1) - System.currentTimeMillis() < 3600000) {
+                            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent)
+                        } else {
+                            alarmManager.set(AlarmManager.RTC_WAKEUP, ((czas + czas1) - 3600000), pendingIntent)
+                        }
+                    }
+                }
             } else {
                 jsonArray[pozycja].notif = FALSE
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
