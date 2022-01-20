@@ -71,7 +71,7 @@
 
         <RadioGroup
             android:id="@+id/radiogroup_add1"
-            android:layout_width="350dp"
+            android:layout_width="355dp"
             android:layout_height="58dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
@@ -128,7 +128,7 @@
 
             <RadioButton
                 android:id="@+id/radio_add5"
-                android:layout_width="70dp"
+                android:layout_width="75dp"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
                 android:button="@android:color/transparent"

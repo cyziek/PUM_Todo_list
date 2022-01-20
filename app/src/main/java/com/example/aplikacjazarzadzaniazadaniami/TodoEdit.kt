@@ -270,7 +270,7 @@ class TodoEdit : Fragment() {
                     val intent = Intent(this.context, ReminderBroadcast::class.java)
 
                     val pendingIntent: PendingIntent =
-                        PendingIntent.getBroadcast(this.context, idChannel, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                        PendingIntent.getBroadcast(this.context, idChannel, intent, PendingIntent.FLAG_IMMUTABLE)
                     alarmManager!!.cancel(pendingIntent)
                 }
 
@@ -282,9 +282,12 @@ class TodoEdit : Fragment() {
                 Log.d("ID edit", idChannel.toString())
                 intent.putExtra("VALUE_TITLE", binding.test.text.toString())
                 intent.putExtra("VALUE_DESC", binding.desc.text.toString())
-                val pendingIntent: PendingIntent =
-                    PendingIntent.getBroadcast(this.context, idChannel, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
+                val pendingIntent: PendingIntent = if(Build.VERSION.SDK_INT <=30) {
+                    PendingIntent.getBroadcast(this.context, idChannel, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                }else{
+                    PendingIntent.getBroadcast(this.context, idChannel, intent, PendingIntent.FLAG_IMMUTABLE)
+                }
                 var czas = binding.calendarView.date
                 if(czas < System.currentTimeMillis()){
                     czas = System.currentTimeMillis()
@@ -328,7 +331,7 @@ class TodoEdit : Fragment() {
                     notificationManager?.deleteNotificationChannel("channel_$idChannel")
                     val intent = Intent(this.context, ReminderBroadcast::class.java)
                     val pendingIntent: PendingIntent =
-                        PendingIntent.getBroadcast(this.context, idChannel, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                        PendingIntent.getBroadcast(this.context, idChannel, intent, PendingIntent.FLAG_IMMUTABLE)
 
                     val alarmManager: AlarmManager =
                         context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager

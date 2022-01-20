@@ -177,7 +177,7 @@ class AddToList : Fragment() {
                     intent.putExtra("VALUE_TITLE", binding.titleAdd.text.toString())
                     intent.putExtra("VALUE_DESC", binding.descAdd.text.toString())
                     val pendingIntent: PendingIntent =
-                        PendingIntent.getBroadcast(this.context, id, intent, 0)
+                        PendingIntent.getBroadcast(this.context, id, intent, PendingIntent.FLAG_IMMUTABLE)
                     val alarmManager: AlarmManager =
                         context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -251,12 +251,15 @@ class AddToList : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == pickImage) {
             imageUri = data?.data
+            Log.d("URI", imageUri.toString())
             binding.img.setImageURI(imageUri)
             filePath = imageUri?.let { this.context?.let { it1 -> getPath(it1, it) } }.toString()
-            Log.d("Hehe", filePath)
+            Log.d("Hehe", Uri.fromFile(File(filePath)).toString())
+
         }else if(resultCode == RESULT_OK && requestCode == camera){
             var imageBitmap = data?.extras?.get("data") as Bitmap
             binding.img.setImageBitmap(imageBitmap)
+            Log.d("BitMap", imageBitmap.toString())
             imageUri = this.context?.let { getImageUri(it, imageBitmap) }
             var path = this.context?.let { imageUri?.let { it1 -> getPath(it, it1) } }
             filePath = path.toString()

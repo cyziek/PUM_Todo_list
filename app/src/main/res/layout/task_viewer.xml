@@ -52,11 +52,11 @@
 
     <TextView
         android:id="@+id/desc"
-        android:layout_width="370dp"
-        android:layout_height="254dp"
+        android:layout_width="345dp"
+        android:layout_height="257dp"
         android:layout_marginTop="20dp"
+        android:scrollbars="vertical"
         android:text="TextView"
-        android:scrollbars = "vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
