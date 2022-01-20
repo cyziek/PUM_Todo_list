@@ -110,7 +110,7 @@ class TodoList : Fragment(), Adapter.OnItemClickListener, Adapter.OnItemLongClic
 
                     alarmManager!!.cancel(pendingIntent)
                 }
-                if(position == 0){
+                if(jsonArray.size == 1){
                     File(letDirectory,"Records.json").delete()
                 }else {
                     jsonArray.removeAt(position)

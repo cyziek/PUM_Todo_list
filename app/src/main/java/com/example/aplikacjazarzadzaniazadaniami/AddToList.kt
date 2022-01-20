@@ -25,6 +25,7 @@ import java.io.*
 import java.lang.Boolean.*
 import java.util.*
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
@@ -35,6 +36,7 @@ import android.provider.MediaStore
 import android.provider.MediaStore.Images
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import java.lang.Integer.parseInt
 
@@ -76,8 +78,11 @@ class AddToList : Fragment() {
 
         binding.camera.setOnClickListener{
             (activity as MainActivity).checkPermission(Manifest.permission.CAMERA, camera)
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(intent, camera)
+            if (this.context?.let { it1 -> ContextCompat.checkSelfPermission(it1, Manifest.permission.CAMERA) }
+                == PackageManager.PERMISSION_GRANTED){
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(intent, camera)
+            }
         }
 
         val calendar = Calendar.getInstance()
@@ -189,14 +194,14 @@ class AddToList : Fragment() {
 
                     when {
                         binding.radioAdd1.isChecked -> alarmManager.set(AlarmManager.RTC_WAKEUP, (czas + czas1), pendingIntent)
-                        binding.radioAdd2.isChecked -> {
+                        binding.radioAdd2.isChecked ->{
                             if ((czas + czas1) - System.currentTimeMillis() < 600000) {
                                 alarmManager.set(AlarmManager.RTC_WAKEUP, (System.currentTimeMillis()), pendingIntent)
                             } else {
                                 alarmManager.set(AlarmManager.RTC_WAKEUP, ((czas + czas1) - 600000), pendingIntent)
                             }
                         }
-                        binding.radioAdd3.isChecked -> {
+                        binding.radioAdd3.isChecked ->{
                             if ((czas + czas1) - System.currentTimeMillis() < 1200000) {
                                 alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent)
                             } else {
@@ -245,6 +250,12 @@ class AddToList : Fragment() {
                 imm.hideSoftInputFromWindow(view.windowToken, 0)
                 false
             })
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        //Clear the Activity's bundle of the subsidiary fragments' bundles.
+        outState.clear()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -5,6 +5,7 @@ import android.app.*
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -17,6 +18,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.aplikacjazarzadzaniazadaniami.databinding.TodoEditBinding
@@ -25,7 +27,8 @@ import com.google.gson.reflect.TypeToken
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileReader
-import java.lang.Boolean.*
+import java.lang.Boolean.FALSE
+import java.lang.Boolean.TRUE
 import java.util.*
 
 class TodoEdit : Fragment() {
@@ -107,8 +110,11 @@ class TodoEdit : Fragment() {
 
         binding.cameraEdit.setOnClickListener{
             (activity as MainActivity).checkPermission(Manifest.permission.CAMERA, camera)
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(intent, camera)
+            if (this.context?.let { it1 -> ContextCompat.checkSelfPermission(it1, Manifest.permission.CAMERA) }
+                == PackageManager.PERMISSION_GRANTED){
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(intent, camera)
+            }
         }
 
         binding.delimg.setOnClickListener{
@@ -124,6 +130,12 @@ class TodoEdit : Fragment() {
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        //Clear the Activity's bundle of the subsidiary fragments' bundles.
+        outState.clear()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -24,7 +24,7 @@ class ReminderBroadcast : BroadcastReceiver() {
 
         Log.d("Check id", id.toString())
 
-        if(id != 0) {
+        if(id != 0 && id != null) {
 
             val notification: Notification =
                 NotificationCompat.Builder(context as Context, "channel_$id")
@@ -38,7 +38,7 @@ class ReminderBroadcast : BroadcastReceiver() {
 
             val notificationManager: NotificationManagerCompat =
                 NotificationManagerCompat.from(context)
-            notificationManager?.notify(id as Int, notification)
+            notificationManager?.notify(id, notification)
         }
     }
 }
