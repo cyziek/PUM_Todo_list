@@ -43,6 +43,7 @@ class TaskViewer : Fragment() {
         val letDirectory = File(path, "LET")
         val format = SimpleDateFormat("dd/MM/yyy HH:mm")
         val pozycja = TodoList.getPozycja()
+        Log.d("Pozycja", pozycja.toString())
         setPozycja(pozycja)
         if(File(letDirectory,"Records.json").exists()) {
             val jsonArray: MutableList<Zadania> = Gson().fromJson(

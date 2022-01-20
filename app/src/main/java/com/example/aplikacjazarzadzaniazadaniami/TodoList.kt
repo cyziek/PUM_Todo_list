@@ -103,17 +103,20 @@ class TodoList : Fragment(), Adapter.OnItemClickListener, Adapter.OnItemLongClic
                     notificationManager?.deleteNotificationChannel("channel_$id")
                     val intent = Intent(this.context, ReminderBroadcast::class.java)
                     val pendingIntent: PendingIntent =
-                        PendingIntent.getBroadcast(this.context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                        PendingIntent.getBroadcast(this.context, id, intent, PendingIntent.FLAG_IMMUTABLE)
 
                     val alarmManager: AlarmManager =
                         context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
                     alarmManager!!.cancel(pendingIntent)
                 }
-
-                jsonArray.removeAt(position)
-                val jsonString = Gson().toJson(jsonArray)
-                file.writeText(jsonString)
+                if(position == 0){
+                    File(letDirectory,"Records.json").delete()
+                }else {
+                    jsonArray.removeAt(position)
+                    val jsonString = Gson().toJson(jsonArray)
+                    file.writeText(jsonString)
+                }
             }
             findNavController().navigate(R.id.action_FirstFragment_self)
             builder.dismiss()
